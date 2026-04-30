@@ -134,8 +134,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .msg-wrap.bot .msg-bubble{background:var(--surface);border:1px solid var(--border);border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.03);color:var(--text)}
 .msg-wrap.user .msg-bubble{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--surface);border-bottom-right-radius:4px;box-shadow:0 4px 16px rgba(232,80,10,0.25)}
 .msg-wrap.error .msg-bubble{background:var(--error-bg);border-color:var(--error-border);color:var(--error-text)}
-.msg-voice-btn{display:inline-flex;gap:0.3rem;margin-top:0.6rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border);border-radius:50px;color:var(--text2);font-size:0.72rem;font-weight:600;cursor:pointer;font-family:var(--font);transition:border-color 0.2s,background-color 0.2s,color 0.2s}
-.msg-voice-btn:hover{color:var(--primary-dark);border-color:rgba(232,80,10,0.3);background:var(--primary-pale)}
+.listen-btn{display:inline-flex;gap:0.3rem;margin-top:0.6rem;padding:0.25rem 0.65rem;background:var(--surface2);border:1px solid var(--border);border-radius:50px;color:var(--text2);font-size:0.72rem;font-weight:600;cursor:pointer;font-family:var(--font);transition:border-color 0.2s,background-color 0.2s,color 0.2s}
+.listen-btn:hover{color:var(--primary-dark);border-color:rgba(232,80,10,0.3);background:var(--primary-pale)}
 .typing-wrap{display:none;align-items:flex-start;flex-direction:column}
 .typing-wrap.visible{display:flex}
 .typing-bubble{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);border-bottom-left-radius:4px;padding:0.85rem 1.1rem;display:flex;align-items:center;gap:6px}
@@ -149,11 +149,11 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .input-container:focus-within{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-pale)}
 .chat-input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font);font-size:0.95rem;font-weight:500;min-width:0}
 .chat-input::placeholder{color:var(--muted)}
-.input-actions{display:flex;gap:0.4rem}
+.input-actions{display:flex;align-items:center;gap:0.4rem}
 .mic-btn{width:40px;height:40px;border-radius:50%;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:background-color 0.2s,color 0.2s}
 .mic-btn:hover{background:var(--surface2);color:var(--primary-dark)}
 .mic-btn.listening{background:var(--error);color:var(--surface)}
-.send-btn{width:42px;height:42px;border-radius:50%;background:var(--primary);border:none;color:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px var(--primary-glow);transition:background-color 0.2s}
+.send-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--primary);border:none;color:var(--surface);cursor:pointer;box-shadow:0 4px 12px var(--primary-glow);transition:background-color 0.2s}
 .send-btn:hover{background:var(--primary-light)}
 .send-btn:disabled{opacity:0.5;cursor:not-allowed}
 .input-hint{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:0.6rem;font-weight:500}
@@ -481,7 +481,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     on('click', '.tl-item', (e, target) => toggleStep(parseInt(target.dataset.idx)));
     on('click', '.tl-ask', (e, target) => { e.stopPropagation(); askFromTimeline(parseInt(target.dataset.idx)); });
     on('click', '.qq-btn', (e, target) => askQuestion(target.dataset.text));
-    on('click', '.msg-voice-btn', (e, target) => speakText(target, target.dataset.text));
+    on('click', '.listen-btn', (e, target) => toggleSpeech(target, target.dataset.text));
     on('click', '#start-scenario-btn', startScenario);
     on('click', '#retry-scenario-btn', startScenario);
     on('click', '.scenario-opt-btn', (e, target) => evaluateScenario(parseInt(target.dataset.idx)));
@@ -540,14 +540,14 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     renderTimeline();
     renderQuestions();
     updateTickerText();
-    qa('.msg-voice-btn').forEach(btn => {
+    qa('.listen-btn').forEach(btn => {
       if (!btn.classList.contains('speaking')) btn.textContent = `🔊 ${l.listen_btn}`;
       else btn.textContent = `⏹ ${l.stop_btn}`;
     });
     if (State.isSpeaking) {
       window.speechSynthesis.cancel();
       State.isSpeaking = false;
-      qa('.msg-voice-btn').forEach(b => { b.classList.remove('speaking'); b.textContent = `🔊 ${l.listen_btn}`; });
+      qa('.listen-btn').forEach(b => { b.classList.remove('speaking'); b.textContent = `🔊 ${l.listen_btn}`; });
     }
   }
 
@@ -676,7 +676,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     let voiceHtml = '';
     if (role === 'bot' && !isError) {
       const cleanText = text.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, ' ');
-      voiceHtml = `<button class="msg-voice-btn" data-text="${cleanText}" aria-label="Listen to message">🔊 ${LANG[State.lang].listen_btn}</button>`;
+      voiceHtml = `<button class="listen-btn" data-text="${cleanText}" aria-label="Listen to message">🔊 ${LANG[State.lang].listen_btn}</button>`;
     }
     wrap.innerHTML = `<div class="msg-sender">${sender}</div><div class="msg-bubble">${formatted}</div>${voiceHtml}`;
     msgs.insertBefore(wrap, el('typing-wrap')); scrollToBottom();
@@ -789,11 +789,11 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     if (State.speechRec) { try{ State.speechRec.stop(); }catch(e){} State.speechRec = null; }
   }
 
-  function speakText(btn, rawText) {
+  function toggleSpeech(btn, rawText) {
     if (!('speechSynthesis' in window)) return;
     if (State.isSpeaking) {
       window.speechSynthesis.cancel(); State.isSpeaking = false;
-      qa('.msg-voice-btn').forEach(b => { b.classList.remove('speaking'); b.textContent = `🔊 ${LANG[State.lang].listen_btn}`; });
+      qa('.listen-btn').forEach(b => { b.classList.remove('speaking'); b.textContent = `🔊 ${LANG[State.lang].listen_btn}`; });
       if (btn.dataset.speaking === 'true') { btn.dataset.speaking = 'false'; return; }
     }
     const clean = rawText.replace(/[*#>]/g, ''); const ut = new SpeechSynthesisUtterance(clean);
