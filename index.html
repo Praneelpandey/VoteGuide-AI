@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VoteGuide AI — Indian Election Process Assistant</title>
+<meta name="description" content="AI-powered interactive guide to the Indian election process for voters. Ask questions about voter registration, EVMs, election schedules, and more.">
+<meta property="og:title" content="VoteGuide AI — Indian Election Process Assistant">
+<meta property="og:description" content="An interactive AI-powered guide to help Indian voters understand the election process from announcement to results.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--navy:#0D2137;--navy-light:#142c48;--navy-mid:#1b3a5c;
+--saffron:#FF6B00;--saffron-light:#ff8a33;--saffron-glow:rgba(255,107,0,.18);--saffron-glow-strong:rgba(255,107,0,.35);
+--white:#FFFFFF;--light-bg:#F4F7FB;--gray-100:#eaeff6;--gray-200:#d5dce8;--gray-400:#8a95a8;--gray-600:#4e5a6e;
+--green:#22c55e;--radius:12px;--radius-lg:16px;
+--shadow:0 2px 16px rgba(13,33,55,.10);--shadow-lg:0 6px 32px rgba(13,33,55,.16);
+--font-head:'Rajdhani',sans-serif;--font-body:'Noto Sans',sans-serif;
+--ease:cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--light-bg);color:var(--navy);min-height:100vh;display:flex;flex-direction:column}
+
+/* HEADER */
+.header{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--saffron);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+.header-left{display:flex;align-items:center;gap:.7rem}
+.header-left .emoji{font-size:1.7rem}
+.header-left h1{font-family:var(--font-head);font-size:1.55rem;font-weight:700;color:var(--white);line-height:1}
+.header-left h1 span{color:var(--saffron)}
+.header-left .tagline{font-size:.72rem;color:var(--gray-400);font-weight:400;letter-spacing:.5px;margin-top:1px}
+.header-right{display:flex;align-items:center;gap:1rem}
+.key-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:var(--gray-400);font-size:.78rem;padding:.4rem .9rem;border-radius:50px;cursor:pointer;transition:all .25s var(--ease);font-family:var(--font-body)}
+.key-btn:hover{border-color:var(--saffron);color:var(--saffron)}
+
+/* MAIN LAYOUT */
+.main{display:grid;grid-template-columns:280px 1fr 260px;gap:0;flex:1;min-height:0;overflow:hidden}
+
+/* LEFT PANEL - TIMELINE */
+.panel-left{background:var(--white);border-right:1px solid var(--gray-200);display:flex;flex-direction:column;overflow-y:auto}
+.panel-title{font-family:var(--font-head);font-size:.85rem;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1.2px;padding:1.2rem 1.3rem .6rem}
+.timeline{padding:.5rem 1rem 1.5rem;flex:1}
+.tl-step{display:flex;align-items:flex-start;gap:.9rem;padding:.85rem .8rem;border-radius:var(--radius);cursor:pointer;transition:all .3s var(--ease);position:relative;margin-bottom:.25rem}
+.tl-step:hover{background:var(--light-bg)}
+.tl-step.active{background:var(--saffron-glow);box-shadow:inset 3px 0 0 var(--saffron),0 0 20px var(--saffron-glow)}
+.tl-step.active .tl-dot{background:var(--saffron);border-color:var(--saffron);box-shadow:0 0 12px var(--saffron-glow-strong);transform:scale(1.15)}
+.tl-step.active .tl-label{color:var(--navy);font-weight:600}
+.tl-step.active .tl-desc{color:var(--gray-600)}
+.tl-connector{position:absolute;left:2.05rem;top:2.8rem;width:2px;height:calc(100% - 1.2rem);background:var(--gray-200);transition:background .3s var(--ease)}
+.tl-step.active .tl-connector{background:var(--saffron)}
+.tl-step:last-child .tl-connector{display:none}
+.tl-dot{width:18px;height:18px;min-width:18px;border-radius:50%;border:2.5px solid var(--gray-200);background:var(--white);margin-top:2px;transition:all .3s var(--ease);position:relative;z-index:1}
+.tl-text{flex:1;min-width:0}
+.tl-num{font-family:var(--font-head);font-size:.65rem;font-weight:700;color:var(--saffron);text-transform:uppercase;letter-spacing:.8px}
+.tl-label{font-family:var(--font-head);font-size:.95rem;font-weight:600;color:var(--navy);line-height:1.2;transition:all .3s var(--ease)}
+.tl-desc{font-size:.72rem;color:var(--gray-400);line-height:1.4;margin-top:2px;transition:all .3s var(--ease)}
+
+/* EXPANDABLE TIMELINE DETAIL PANEL */
+.tl-detail{max-height:0;overflow:hidden;transition:max-height .4s var(--ease),opacity .3s var(--ease),padding .3s var(--ease);opacity:0;margin-top:0;padding:0 0 0 27px}
+.tl-step.active .tl-detail{max-height:220px;opacity:1;margin-top:.5rem;padding:0 0 0 27px}
+.tl-detail-inner{background:var(--light-bg);border:1px solid var(--gray-200);border-left:3px solid var(--saffron);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem .85rem;font-size:.75rem;color:var(--gray-600);line-height:1.5}
+.tl-detail-inner p{margin-bottom:.4rem}
+.tl-key-fact{font-weight:700;color:var(--navy);font-size:.76rem;padding:3px 0}
+.tl-ask-btn{display:inline-flex;align-items:center;gap:.3rem;margin-top:.45rem;padding:.3rem .7rem;border-radius:50px;border:1.5px solid var(--saffron);background:var(--saffron-glow);color:var(--saffron);font-size:.7rem;font-weight:600;cursor:pointer;transition:all .25s var(--ease);font-family:var(--font-head)}
+.tl-ask-btn:hover{background:var(--saffron);color:var(--white);transform:translateX(2px)}
+
+/* FACT TICKER */
+.fact-ticker{background:var(--navy-light);padding:.45rem 2rem;text-align:center;font-size:.78rem;color:var(--gray-200);position:relative;overflow:hidden;min-height:28px}
+.fact-ticker .fact-label{color:var(--saffron);font-family:var(--font-head);font-weight:700;margin-right:.4rem;font-size:.8rem}
+.fact-text{display:inline;transition:opacity .5s var(--ease);vertical-align:middle}
+.fact-text.fade-out{opacity:0}
+.fact-text.fade-in{opacity:1}
+
+/* LANG NOTE */
+.lang-note{display:inline-block;margin-top:.5rem;padding:.3rem .65rem;background:var(--saffron-glow);border:1px solid rgba(255,107,0,.2);border-radius:50px;font-size:.68rem;color:var(--saffron);font-weight:500}
+
+/* CENTER - CHAT */
+.panel-center{display:flex;flex-direction:column;min-height:0;background:var(--light-bg)}
+.chat-messages{flex:1;overflow-y:auto;padding:1.5rem 1.5rem 1rem;display:flex;flex-direction:column;gap:.8rem;scroll-behavior:smooth}
+.chat-messages::-webkit-scrollbar{width:5px}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:3px}
+.msg{max-width:72%;padding:.85rem 1.15rem;border-radius:var(--radius-lg);font-size:.88rem;line-height:1.6;animation:msgIn .35s var(--ease) both;position:relative}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.msg.bot{align-self:flex-start;background:var(--white);border:1px solid var(--gray-200);border-bottom-left-radius:4px;box-shadow:var(--shadow)}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:var(--white);border-bottom-right-radius:4px;box-shadow:var(--shadow)}
+.msg .sender{font-size:.68rem;font-weight:700;margin-bottom:3px;font-family:var(--font-head);letter-spacing:.3px}
+.msg.bot .sender{color:var(--saffron)}
+.msg.user .sender{color:var(--saffron-light)}
+.msg.bot p,.msg.user p{margin:0}
+.typing{display:none;align-self:flex-start;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:.7rem 1.1rem;gap:5px;align-items:center;box-shadow:var(--shadow)}
+.typing span{width:6px;height:6px;background:var(--gray-400);border-radius:50%;animation:dot .6s infinite alternate}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes dot{to{transform:translateY(-5px);opacity:.3}}
+.chat-bar{padding:.8rem 1.2rem;background:var(--white);border-top:1px solid var(--gray-200);display:flex;gap:.6rem;align-items:center}
+.chat-bar input{flex:1;padding:.7rem 1rem;border:2px solid var(--gray-100);border-radius:50px;font-size:.88rem;font-family:var(--font-body);outline:none;transition:border .25s var(--ease);background:var(--light-bg)}
+.chat-bar input:focus{border-color:var(--saffron)}
+.chat-bar button{width:42px;height:42px;border-radius:50%;border:none;background:var(--saffron);color:var(--white);font-size:1.1rem;cursor:pointer;transition:all .25s var(--ease);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-bar button:hover{background:var(--saffron-light);transform:scale(1.08);box-shadow:0 4px 16px var(--saffron-glow-strong)}
+
+/* RIGHT PANEL - QUICK QUESTIONS */
+.panel-right{background:var(--white);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;overflow-y:auto}
+.quick-list{padding:.6rem 1rem 1.5rem;display:flex;flex-direction:column;gap:.5rem}
+.qq-btn{text-align:left;padding:.7rem .9rem;border-radius:var(--radius);border:1.5px solid var(--gray-100);background:var(--light-bg);color:var(--navy);font-size:.8rem;font-family:var(--font-body);font-weight:500;cursor:pointer;transition:all .25s var(--ease);line-height:1.35}
+.qq-btn:hover{border-color:var(--saffron);background:var(--saffron-glow);transform:translateX(4px);box-shadow:0 2px 12px var(--saffron-glow)}
+.qq-btn .qq-icon{margin-right:.4rem}
+.qq-info{margin:0 1rem;padding:.9rem;background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--radius);color:var(--white);font-size:.75rem;line-height:1.5;margin-bottom:1rem}
+.qq-info strong{color:var(--saffron);font-family:var(--font-head);font-size:.85rem}
+
+/* FOOTER */
+.footer{background:var(--navy);padding:.6rem 2rem;text-align:center;font-size:.75rem;color:var(--gray-400);border-top:2px solid var(--saffron-glow)}
+.footer span{color:var(--saffron);font-weight:600}
+
+/* API KEY MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(13,33,55,.75);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;animation:fadeIn .3s var(--ease)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--white);border-radius:var(--radius-lg);padding:2.2rem;max-width:420px;width:90%;box-shadow:var(--shadow-lg);text-align:center;animation:scaleIn .3s var(--ease)}
+@keyframes scaleIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h2{font-family:var(--font-head);font-size:1.5rem;margin-bottom:.4rem;color:var(--navy)}
+.modal p{font-size:.85rem;color:var(--gray-600);margin-bottom:1.2rem;line-height:1.5}
+.modal input{width:100%;padding:.75rem 1rem;border:2px solid var(--gray-200);border-radius:var(--radius);font-size:.9rem;outline:none;transition:border .25s var(--ease);font-family:var(--font-body)}
+.modal input:focus{border-color:var(--saffron)}
+.modal-btn{width:100%;margin-top:.8rem;padding:.75rem;border-radius:50px;border:none;background:var(--saffron);color:var(--white);font-family:var(--font-head);font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s var(--ease)}
+.modal-btn:hover{background:var(--saffron-light);box-shadow:0 4px 20px var(--saffron-glow-strong)}
+.modal .note{font-size:.72rem;color:var(--gray-400);margin-top:.7rem}
+.modal .note a{color:var(--saffron)}
+
+/* MOBILE DRAWER */
+.mobile-toggle{display:none;background:none;border:none;color:var(--white);font-size:1.4rem;cursor:pointer;padding:.3rem}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:50}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.main{grid-template-columns:1fr}
+.panel-left,.panel-right{display:none;position:fixed;top:56px;bottom:36px;width:280px;z-index:60;box-shadow:var(--shadow-lg)}
+.panel-left.open{display:flex;left:0}
+.panel-right.open{display:flex;right:0}
+.overlay.open{display:block}
+.mobile-toggle{display:block}
+.header{padding:.7rem 1rem}
+.msg{max-width:88%}
+}
+@media(max-width:480px){
+.header-left h1{font-size:1.2rem}
+.header-left .tagline{display:none}
+.chat-bar input{font-size:.82rem}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<div class="header-left">
+  <button class="mobile-toggle" id="toggle-left" onclick="togglePanel('left')">☰</button>
+  <span class="emoji">🗳️</span>
+  <div><h1>VoteGuide <span>AI</span></h1><div class="tagline">Your Election Process Guide</div></div>
+</div>
+<div class="header-right">
+  <button class="key-btn" onclick="showModal()">🔑 API Key</button>
+  <button class="mobile-toggle" id="toggle-right" onclick="togglePanel('right')">💬</button>
+</div>
+</header>
+
+<!-- DID YOU KNOW TICKER -->
+<div class="fact-ticker" id="fact-ticker">
+  <span class="fact-label">💡 Did You Know?</span>
+  <span class="fact-text fade-in" id="fact-text"></span>
+</div>
+
+<!-- MAIN 3-PANEL -->
+<div class="main">
+
+<!-- LEFT: TIMELINE -->
+<aside class="panel-left" id="panel-left">
+<div class="panel-title">Election Timeline</div>
+<div class="timeline" id="timeline"></div>
+</aside>
+
+<!-- CENTER: CHAT -->
+<main class="panel-center">
+<div class="chat-messages" id="messages">
+  <div class="msg bot"><div class="sender">VOTEGUIDE AI</div>Namaste! 🙏 I'm your AI election guide. Ask me anything about the Indian election process — voter registration, EVMs, schedules, your rights, or how votes are counted.<br><br>Click a step on the left timeline to explore details, or pick a quick question on the right!<br><span class="lang-note">🌐 This assistant responds in the language you write in — Hindi, English, or others</span></div>
+  <div class="typing" id="typing"><span></span><span></span><span></span></div>
+</div>
+<div class="chat-bar">
+  <input type="text" id="input" placeholder="Ask about Indian elections..." autocomplete="off">
+  <button onclick="send()" id="send-btn" aria-label="Send message">➤</button>
+</div>
+</main>
+
+<!-- RIGHT: QUICK QUESTIONS -->
+<aside class="panel-right" id="panel-right">
+<div class="panel-title">Quick Questions</div>
+<div class="quick-list" id="quick-list"></div>
+<div class="qq-info"><strong>💡 Tip</strong><br>Click any question above or type your own in the chat. I can explain voter ID, EVMs, NOTA, election phases, and more!</div>
+</aside>
+
+</div>
+
+<!-- OVERLAY FOR MOBILE -->
+<div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
+
+<!-- FOOTER -->
+<div class="footer">Built for <span>Google Promptwars Hackathon</span> · Powered by <span>Gemini AI</span> · <a href="https://eci.gov.in" target="_blank" style="color:var(--saffron);text-decoration:none">eci.gov.in</a></div>
+
+<!-- API MODAL -->
+<div class="modal-bg" id="modal">
+<div class="modal">
+  <h2>🔑 Enter API Key</h2>
+  <p>Provide your Google Gemini API key to power the AI assistant. It stays in your browser only.</p>
+  <input type="password" id="key-input" placeholder="Paste your Gemini API key here...">
+  <button class="modal-btn" onclick="saveKey()">Save &amp; Continue</button>
+  <p class="note">Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></p>
+</div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CONFIG — Google Gemini AI Configuration
+   Get your free API key at: https://aistudio.google.com/app/apikey
+   ═══════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  GEMINI_API_KEY: "YOUR_API_KEY_HERE", // ← Replace with your Gemini API key, or enter it via the in-app modal
+  MODEL: "gemini-2.0-flash",           // Gemini model (note: gemini-1.5-flash is retired, use 2.0-flash)
+  API_BASE: "https://generativelanguage.googleapis.com/v1beta/models",
+  SYSTEM_PROMPT: `You are VoteGuide AI, an expert on the Indian election process. Help voters understand registration, voting, EVM machines, election phases, Model Code of Conduct, result counting, and all election-related topics. Be concise, friendly, and factual. Format responses in simple bullet points when listing steps.`
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   ELECTION DATA
+   ═══════════════════════════════════════════════════════════════ */
+const STEPS=[
+{num:1, title:"Election Announcement", desc:"ECI announces dates, Model Code of Conduct begins",
+  detail:"Election Commission of India announces schedule. Model Code of Conduct begins immediately.",
+  keyFact:"The Model Code of Conduct is enforced from the announcement date until results are declared."},
+{num:2, title:"Voter Registration", desc:"Electoral rolls updated, new voters can register",
+  detail:"Citizens verify/update voter ID on voterportal.eci.gov.in. Deadline typically 1 week before voting.",
+  keyFact:"Any Indian citizen aged 18+ on the qualifying date can register to vote."},
+{num:3, title:"Candidate Nomination", desc:"Candidates file papers, scrutiny & withdrawals",
+  detail:"Candidates file nomination papers. Security deposit required (₹25,000 for LS, ₹12,500 for state).",
+  keyFact:"Security deposit: ₹25,000 for Lok Sabha, ₹12,500 for State Assembly elections."},
+{num:4, title:"Campaign Period", desc:"Rallies, advertisements, and door-to-door outreach",
+  detail:"Candidates campaign across constituencies. Campaign ends 48 hours before polling (silence period).",
+  keyFact:"Campaigning must stop 48 hours before polling day — this is called the 'silence period'."},
+{num:5, title:"Voting Day", desc:"Voters cast ballots via EVMs at polling stations",
+  detail:"EVMs used at polling booths. VVPAT provides paper trail. Voters need ID proof.",
+  keyFact:"Each EVM can record up to 2,000 votes and runs on a 7.5V battery — no electricity needed."},
+{num:6, title:"Results & Oath", desc:"Votes counted, winners declared, government formed",
+  detail:"Votes counted, results declared. Winning candidates take oath of office.",
+  keyFact:"Counting typically begins at 8 AM and most results are declared by evening the same day."}
+];
+
+/* "Did You Know?" rotating facts */
+const FACTS=[
+  "India has the largest electorate in the world — over 960 million registered voters.",
+  "The Election Commission of India was established on 25 January 1950, celebrated as National Voters' Day.",
+  "EVMs were first used in 1982 in a by-election in Kerala's Parur constituency.",
+  "NOTA (None of the Above) was introduced in Indian elections in 2013 following a Supreme Court order.",
+  "India's general elections are the largest democratic exercise on Earth, often spanning several weeks and multiple phases."
+];
+
+const QUESTIONS=[
+{icon:"📝",text:"How do I register to vote in India?"},
+{icon:"🖲️",text:"What is an EVM and how does it work?"},
+{icon:"🗓️",text:"What is the 2026 election schedule?"},
+{icon:"🚫",text:"What is NOTA and when should I use it?"},
+{icon:"📋",text:"What documents do I need to vote?"},
+{icon:"🏛️",text:"What is the Model Code of Conduct?"},
+{icon:"✅",text:"How does VVPAT verification work?"},
+{icon:"👤",text:"Who is eligible to contest elections?"}
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   APP STATE
+   ═══════════════════════════════════════════════════════════════ */
+// API key: prefer localStorage (set via modal), fall back to CONFIG placeholder
+let API_KEY = localStorage.getItem('vg_api_key') || (CONFIG.GEMINI_API_KEY !== "YOUR_API_KEY_HERE" ? CONFIG.GEMINI_API_KEY : '');
+let activeStep = -1;
+let chatHistory = [];
+let isLoading = false; // prevents double-sends while waiting for AI
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER FUNCTIONS
+   ═══════════════════════════════════════════════════════════════ */
+function renderTimeline(){
+  const el=document.getElementById('timeline');
+  el.innerHTML=STEPS.map((s,i)=>`<div class="tl-step${i===0?' active':''}" data-idx="${i}" onclick="selectStep(${i})">
+  <div class="tl-dot"></div><div class="tl-connector"></div>
+  <div class="tl-text">
+    <div class="tl-num">Step ${s.num}</div>
+    <div class="tl-label">${s.title}</div>
+    <div class="tl-desc">${s.desc}</div>
+  </div>
+  <div class="tl-detail"><div class="tl-detail-inner">
+    <p>${s.detail}</p>
+    <div class="tl-key-fact">📌 ${s.keyFact}</div>
+    <button class="tl-ask-btn" onclick="event.stopPropagation();askAboutStep(${i})">Ask AI about this →</button>
+  </div></div>
+  </div>`).join('');
+  activeStep=0;
+}
+
+function renderQuestions(){
+  const el=document.getElementById('quick-list');
+  el.innerHTML=QUESTIONS.map(q=>`<button class="qq-btn" onclick="askQuick(\`${q.text}\`)"><span class="qq-icon">${q.icon}</span>${q.text}</button>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIMELINE — Step click to expand/collapse knowledge panel
+   ═══════════════════════════════════════════════════════════════ */
+function selectStep(i){
+  // Toggle: clicking the same step collapses it
+  const isAlreadyActive = (activeStep === i);
+  document.querySelectorAll('.tl-step').forEach((el,j)=>el.classList.toggle('active', isAlreadyActive ? false : j===i));
+  activeStep = isAlreadyActive ? -1 : i;
+}
+
+/* "Ask AI about this →" button inside expanded step */
+function askAboutStep(i){
+  const s = STEPS[i];
+  askQuick(`Tell me about the "${s.title}" stage of Indian elections.`);
+  closeAllPanels();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FACT TICKER — Rotates every 4 seconds with fade transition
+   ═══════════════════════════════════════════════════════════════ */
+let currentFact = 0;
+function startFactTicker(){
+  const el = document.getElementById('fact-text');
+  el.textContent = FACTS[0];
+  setInterval(()=>{
+    el.classList.remove('fade-in');
+    el.classList.add('fade-out');
+    setTimeout(()=>{
+      currentFact = (currentFact + 1) % FACTS.length;
+      el.textContent = FACTS[currentFact];
+      el.classList.remove('fade-out');
+      el.classList.add('fade-in');
+    }, 500);
+  }, 4000);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHAT — Message display & formatting
+   ═══════════════════════════════════════════════════════════════ */
+function addMsg(text, role){
+  const container = document.getElementById('messages');
+  const typingEl = document.getElementById('typing');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.innerHTML = `<div class="sender">${role==='bot' ? 'VOTEGUIDE AI' : 'YOU'}</div>${formatResponse(text)}`;
+  container.insertBefore(div, typingEl);
+  container.scrollTop = container.scrollHeight;
+}
+
+function formatResponse(text){
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br>');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHAT — Typing indicator ("..." animation while waiting)
+   ═══════════════════════════════════════════════════════════════ */
+function showTyping(visible){
+  const t = document.getElementById('typing');
+  t.style.display = visible ? 'flex' : 'none';
+  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GEMINI API — Call function using fetch()
+   Endpoint: /v1beta/models/{model}:generateContent
+   Method: POST with API key as query param
+   ═══════════════════════════════════════════════════════════════ */
+async function callGeminiAPI(userMessage){
+  const endpoint = `${CONFIG.API_BASE}/${CONFIG.MODEL}:generateContent?key=${API_KEY}`;
+
+  const requestBody = {
+    system_instruction: { parts: [{ text: CONFIG.SYSTEM_PROMPT }] },
+    contents: chatHistory
+  };
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(requestBody)
+  });
+
+  const data = await response.json();
+
+  // Handle API errors with friendly messages
+  if(data.error){
+    const code = data.error.code || 0;
+    if(code === 400) throw new Error('Bad request — please rephrase your question and try again.');
+    if(code === 403) throw new Error('API key is invalid or restricted. Please check your key in the API Key settings.');
+    if(code === 429) throw new Error('Too many requests — please wait a moment and try again.');
+    if(code === 500) throw new Error('Google servers are temporarily unavailable. Please try again shortly.');
+    throw new Error(data.error.message || 'An unexpected error occurred.');
+  }
+
+  // Extract response text
+  const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  if(!reply) throw new Error('The AI returned an empty response. Please try a different question.');
+  return reply;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SEND — Wire up: input → call Gemini → display response
+   ═══════════════════════════════════════════════════════════════ */
+async function send(){
+  const inp = document.getElementById('input');
+  const text = inp.value.trim();
+  if(!text || isLoading) return;
+
+  // Check for API key — show modal if missing
+  if(!API_KEY){
+    showModal();
+    return;
+  }
+
+  // Display user message
+  inp.value = '';
+  addMsg(text, 'user');
+  chatHistory.push({ role: 'user', parts: [{ text }] });
+
+  // Show typing indicator & lock input
+  isLoading = true;
+  showTyping(true);
+  document.getElementById('send-btn').disabled = true;
+
+  try {
+    const reply = await callGeminiAPI(text);
+    chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+    showTyping(false);
+    addMsg(reply, 'bot');
+  } catch(err) {
+    showTyping(false);
+    addMsg('⚠️ ' + err.message, 'bot');
+    // Remove the failed user message from history so it doesn't poison context
+    chatHistory.pop();
+  } finally {
+    isLoading = false;
+    document.getElementById('send-btn').disabled = false;
+    document.getElementById('input').focus();
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   QUICK QUESTIONS — pill button click → pre-fill & auto-send
+   ═══════════════════════════════════════════════════════════════ */
+function askQuick(question){
+  document.getElementById('input').value = question;
+  send();
+  closeAllPanels();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   API KEY MODAL
+   ═══════════════════════════════════════════════════════════════ */
+function showModal(){ document.getElementById('modal').style.display = 'flex'; }
+function hideModal(){ document.getElementById('modal').style.display = 'none'; }
+function saveKey(){
+  const k = document.getElementById('key-input').value.trim();
+  if(!k) return;
+  API_KEY = k;
+  localStorage.setItem('vg_api_key', k);
+  hideModal();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE PANEL DRAWERS
+   ═══════════════════════════════════════════════════════════════ */
+function togglePanel(side){
+  const el = document.getElementById('panel-' + side);
+  const ov = document.getElementById('overlay');
+  const isOpen = el.classList.contains('open');
+  closeAllPanels();
+  if(!isOpen){ el.classList.add('open'); ov.classList.add('open'); }
+}
+function closeAllPanels(){
+  document.getElementById('panel-left').classList.remove('open');
+  document.getElementById('panel-right').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT — Bootstrap the application
+   ═══════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderTimeline();
+  renderQuestions();
+  startFactTicker();
+
+  // Hide modal if API key is already saved
+  if(API_KEY) hideModal();
+
+  // Enter key in input → send message
+  document.getElementById('input').addEventListener('keydown', e => {
+    if(e.key === 'Enter' && !e.shiftKey) send();
+  });
+});
+</script>
+</body>
+</html>
