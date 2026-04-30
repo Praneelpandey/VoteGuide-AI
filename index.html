@@ -176,17 +176,8 @@
             position: relative;
         }
 
-        .view-container {
-            display: none;
-        }
-
-        .view-container.active {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            min-height: 0;
-            animation: fadeInView 0.3s ease forwards;
-        }
+        .view-container { display: none; }
+        .view-container.active { display: flex; flex-direction: column; flex: 1; min-height: 0; animation: fadeInView 0.3s ease forwards; }
 
         @keyframes fadeInView {
             from { opacity: 0; transform: translateY(10px); }
@@ -1467,22 +1458,11 @@
 </div>
 
 <script>
-/**
- * ==========================================================================
- * ENTERPRISE JAVASCRIPT ARCHITECTURE
- * Encapsulated via IIFE to prevent global namespace pollution.
- * Implements strict state management and robust event delegation.
- * ==========================================================================
- */
-(function() {
+
+document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
-    /**
-     * Centralized Application State Management.
-     * Prevents global variables and handles UI sync dynamically.
-     * @type {Object}
-     */
-    const AppState = {
+const AppState = {
         lang: 'en',
         tab: 'chat',
         apiKey: localStorage.getItem('vg_key') || '',
@@ -1500,20 +1480,11 @@
         speechRec: null
     };
 
-    /**
-     * Helper functions for rapid DOM selection.
-     */
-    const el = id => document.getElementById(id);
+const el = id => document.getElementById(id);
     const q = sel => document.querySelector(sel);
     const qa = sel => document.querySelectorAll(sel);
-    
-    /**
-     * Event delegation abstraction.
-     * @param {string} evt - The event type to listen for.
-     * @param {string} sel - The CSS selector for target element.
-     * @param {Function} handler - The callback function.
-     */
-    const on = (evt, sel, handler) => {
+
+const on = (evt, sel, handler) => {
         document.addEventListener(evt, e => {
             const target = e.target.closest(sel);
             if (target) handler(e, target);
@@ -1580,10 +1551,7 @@
         hi: "आप VoteGuide AI हैं — भारतीय चुनाव प्रक्रिया के विशेषज्ञ। मतदाता पंजीकरण, EVM, VVPAT, NOTA, चुनाव चरण, आदर्श आचार संहिता और मतदाता अधिकारों में मदद करें। सरल और स्पष्ट हिंदी में जवाब दें। चरण-दर-चरण उत्तर के लिए बुलेट पॉइंट इस्तेमाल करें।"
     };
 
-    /**
-     * Initializes the entire application state and renders UI.
-     */
-    function init() {
+function init() {
         renderTimeline();
         renderQuestions();
         initTicker();
@@ -1599,10 +1567,7 @@
         }
     }
 
-    /**
-     * Registers centralized event delegation listeners.
-     */
-    function registerEvents() {
+function registerEvents() {
         on('click', '.tab-btn', (e, target) => switchTab(target.dataset.tab));
         on('click', '.lang-btn', (e, target) => switchLang(target.dataset.lang));
         on('click', '#mobile-toggle', toggleSidebar);
@@ -1635,11 +1600,7 @@
         el('modal').addEventListener('click', e => { if (e.target.id === 'modal' && AppState.apiKey) hideModal(); });
     }
 
-    /**
-     * Switches the main active view container.
-     * @param {string} tabId - The identifier of the tab to activate.
-     */
-    function switchTab(tabId) {
+function switchTab(tabId) {
         AppState.tab = tabId;
         ['chat', 'simulator', 'quiz'].forEach(id => {
             const btn = q(`.tab-btn[data-tab="${id}"]`);
@@ -1659,11 +1620,7 @@
         });
     }
 
-    /**
-     * Swaps the active language and updates static strings in the DOM.
-     * @param {string} lang - The target language code ('en' or 'hi').
-     */
-    function switchLang(lang) {
+function switchLang(lang) {
         AppState.lang = lang;
         document.documentElement.lang = lang === 'hi' ? 'hi' : 'en';
         
@@ -1707,10 +1664,7 @@
         }
     }
 
-    /**
-     * Toggles the mobile sidebar visibility.
-     */
-    function toggleSidebar() { 
+function toggleSidebar() { 
         el('sidebar').classList.toggle('open'); 
         el('overlay').classList.toggle('show'); 
     }
@@ -1734,10 +1688,7 @@
         el('chat-input').focus(); 
     }
 
-    /**
-     * Renders the election timeline in the sidebar.
-     */
-    function renderTimeline() {
+function renderTimeline() {
         const timelineEl = el('timeline');
         timelineEl.innerHTML = STEPS.map((s, i) => {
             const title = AppState.lang === 'hi' ? s.hi_title : s.en_title;
@@ -1769,20 +1720,12 @@
         }).join('');
     }
 
-    /**
-     * Expands or collapses a timeline step.
-     * @param {number} i - Index of the timeline step.
-     */
-    function toggleStep(i) { 
+function toggleStep(i) { 
         AppState.activeStep = AppState.activeStep === i ? -1 : i; 
         renderTimeline(); 
     }
 
-    /**
-     * Populates the AI chat input based on the chosen timeline step.
-     * @param {number} i - Index of the timeline step.
-     */
-    function askFromTimeline(i) {
+function askFromTimeline(i) {
         const title = AppState.lang === 'hi' ? STEPS[i].hi_title : STEPS[i].en_title;
         const qText = AppState.lang === 'hi' ? `भारतीय चुनाव के "${title}" चरण के बारे में विस्तार से बताएं।` : `Explain the "${title}" stage of Indian elections in detail.`;
         switchTab('chat'); 
@@ -1790,10 +1733,7 @@
         if(window.innerWidth <= 768) toggleSidebar();
     }
 
-    /**
-     * Renders the quick suggestion questions in the sidebar.
-     */
-    function renderQuestions() {
+function renderQuestions() {
         const grid = el('quick-grid');
         grid.innerHTML = QUESTIONS.map(q => {
             const text = AppState.lang === 'hi' ? q.hi : q.en;
@@ -1801,21 +1741,14 @@
         }).join('');
     }
 
-    /**
-     * Initiates a chat request from a quick question button.
-     * @param {string} qText - The predefined question text.
-     */
-    function askQuestion(qText) { 
+function askQuestion(qText) { 
         switchTab('chat'); 
         el('chat-input').value = qText; 
         handleSend(); 
         if(window.innerWidth <= 768) toggleSidebar(); 
     }
 
-    /**
-     * Initializes the fact ticker animation.
-     */
-    function initTicker() {
+function initTicker() {
         const dotsEl = el('ticker-dots');
         dotsEl.innerHTML = FACTS.map((_, i) => `<button class="ticker-dot ${i===0?'active':''}" data-idx="${i}" aria-label="Show fact ${i+1}"></button>`).join('');
         updateTickerText(); 
@@ -1847,13 +1780,7 @@
         startTickerLoop(); 
     }
 
-    /**
-     * Centralized function to interact with the Google Gemini API.
-     * @param {string} promptSystem - The core system instruction.
-     * @param {Array} messagesArray - The history array of user/model messages.
-     * @returns {Promise<string>} The AI's generated content.
-     */
-    async function fetchGemini(promptSystem, messagesArray) {
+async function fetchGemini(promptSystem, messagesArray) {
         if (!AppState.apiKey) { showModal(); throw new Error("API Key required."); }
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${AppState.apiKey}`;
         
@@ -1880,13 +1807,7 @@
         return reply;
     }
 
-    /**
-     * Wraps the Gemini API to enforce strict minified JSON output.
-     * Used for the Simulator and Quiz modes.
-     * @param {string} promptText - The prompt demanding a JSON response.
-     * @returns {Promise<Object>} The parsed JSON data.
-     */
-    async function fetchGeminiJSON(promptText) {
+async function fetchGeminiJSON(promptText) {
         const sys = "You act as a data generator. You MUST return ONLY valid, minified JSON. Do NOT wrap the JSON in markdown code blocks like ```json. Return pure JSON text.";
         const reply = await fetchGemini(sys, [{ role: 'user', parts: [{ text: promptText }] }]);
         try { 
@@ -1896,10 +1817,7 @@
         }
     }
 
-    /**
-     * Processes user chat input, locks the UI, and requests AI response.
-     */
-    async function handleSend() {
+async function handleSend() {
         const input = el('chat-input');
         const text = input.value.trim();
         
@@ -1934,13 +1852,7 @@
         }
     }
 
-    /**
-     * Appends a formatted message bubble to the chat DOM.
-     * @param {string} text - The raw message string.
-     * @param {string} role - 'user' or 'bot'.
-     * @param {boolean} isError - If true, styles the message as an error card.
-     */
-    function appendMessage(text, role, isError = false) {
+function appendMessage(text, role, isError = false) {
         const msgs = el('messages'); 
         const wrap = document.createElement('div');
         
@@ -1966,10 +1878,7 @@
         m.scrollTop = m.scrollHeight; 
     }
 
-    /**
-     * Dynamically generates a situational election scenario via Gemini.
-     */
-    async function startScenario() {
+async function startScenario() {
         if (!AppState.apiKey) { showModal(); return; }
         
         const container = el('scenario-content');
@@ -1991,11 +1900,7 @@
         }
     }
 
-    /**
-     * Evaluates the user's choice in the dynamic scenario.
-     * @param {number} optIdx - Index of the chosen scenario option.
-     */
-    async function evaluateScenario(optIdx) {
+async function evaluateScenario(optIdx) {
         const container = el('scenario-content');
         const choice = AppState.scenario.options[optIdx];
         const oldHtml = container.innerHTML;
@@ -2017,10 +1922,7 @@
         }
     }
 
-    /**
-     * Fetches a set of 5 dynamic voter quiz questions from Gemini.
-     */
-    async function startQuiz() {
+async function startQuiz() {
         if (!AppState.apiKey) { showModal(); return; }
         
         const container = el('quiz-content');
@@ -2037,10 +1939,7 @@
         }
     }
 
-    /**
-     * Renders the current question from the loaded quiz array.
-     */
-    function renderQuizQuestion() {
+function renderQuizQuestion() {
         const container = el('quiz-content');
         
         if (AppState.quizIdx >= AppState.quizQuestions.length) {
@@ -2071,11 +1970,7 @@
         container.innerHTML = html;
     }
 
-    /**
-     * Processes the selected quiz answer and updates the score.
-     * @param {number} optIdx - Index of the chosen option.
-     */
-    function answerQuiz(optIdx) {
+function answerQuiz(optIdx) {
         const qData = AppState.quizQuestions[AppState.quizIdx];
         const selected = qData.opts[optIdx];
         const isCorrect = selected === qData.answer;
@@ -2097,10 +1992,7 @@
         renderQuizQuestion(); 
     }
 
-    /**
-     * Toggles the Web Speech Recognition API for voice-to-text input.
-     */
-    function toggleVoice() {
+function toggleVoice() {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRec) { 
             appendMessage(LANG[AppState.lang].voice_unsupported, 'bot', true); 
@@ -2153,12 +2045,7 @@
         }
     }
 
-    /**
-     * Utilizes the Web Speech Synthesis API to read bot messages aloud.
-     * @param {HTMLElement} btn - The button triggering the speech.
-     * @param {string} rawText - The text to be spoken.
-     */
-    function speakText(btn, rawText) {
+function speakText(btn, rawText) {
         if (!('speechSynthesis' in window)) return;
         
         if (AppState.isSpeaking) {
@@ -2200,9 +2087,9 @@
         window.speechSynthesis.speak(ut);
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    init();
 
-})();
+});
 </script>
 </body>
 </html>
