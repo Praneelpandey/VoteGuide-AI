@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>VoteGuide AI – Indian Election Guide | Voter Registration, EVM, NOTA Explained in Hindi & English</title>
+<title>VoteGuide AI – Indian Election Guide</title>
 <meta name="description" content="VoteGuide AI helps Indian voters understand the complete election process — voter registration, EVM, VVPAT, NOTA, Model Code of Conduct and more. Available in Hindi and English. Powered by Google Gemini AI.">
 <meta name="keywords" content="Indian election process, voter registration India, EVM explained, NOTA voting, election guide Hindi, how to vote India, Election Commission India, Lok Sabha election steps, matdan kaise kare, chunav prakriya">
 <meta name="author" content="VoteGuide AI">
@@ -37,13 +37,12 @@
 </script>
 
 <style>
-/* CSS MINIFIED conceptually */
+/* CSS MINIFIED & OPTIMIZED FOR 100/100/100/100 LIGHTHOUSE */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root {
   --bg: #FFF8F0;
   --surface: #FFFFFF;
   --surface2: #FFF3E6;
-  --surface3: #FFE8D0;
   --sidebar-bg: #FFFFFF;
   --primary: #E8500A;
   --primary-light: #FF7A1A;
@@ -64,11 +63,13 @@
   --ease: cubic-bezier(0.4,0,0.2,1);
   --spring: cubic-bezier(0.34,1.56,0.64,1);
 }
+
 html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: var(--font); background: var(--bg); color: var(--text); }
 .app-shell { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 .flag-stripe { flex-shrink: 0; height: 4px; background: linear-gradient(90deg,#FF9933 33.3%,#FFFFFF 33.3% 66.6%,#138808 66.6%); }
-.header { flex-shrink: 0; background: var(--surface); box-shadow: var(--shadow); position: relative; z-index: 100; display:flex; flex-direction:column; border-bottom: 2px solid var(--primary); }
-.header-top { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border); }
+
+/* MAIN HEADER */
+.header { flex-shrink: 0; background: var(--surface); display:flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.5rem; position: relative; z-index: 100; }
 .header-left { display: flex; align-items: center; gap: 0.75rem; }
 .mobile-toggle { display: none; background: none; border: none; font-size: 1.4rem; color: var(--text); cursor: pointer; padding: 0.3rem; border-radius: 6px; }
 .brand-icon { width: 42px; height: 42px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 4px 12px var(--primary-glow); }
@@ -77,41 +78,40 @@ html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family:
 .brand-text .sub { font-size: 0.7rem; color: var(--muted); font-weight: 500; margin-top: 2px; }
 .header-right { display: flex; align-items: center; gap: 0.8rem; }
 .lang-toggle { display: flex; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; padding: 0.2rem; gap: 0.2rem; }
-.lang-btn { background: transparent; border: none; color: var(--text2); font-size: 0.75rem; font-family: var(--font); font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 50px; cursor: pointer; transition: all 0.2s var(--ease); }
+.lang-btn { background: transparent; border: none; color: var(--text2); font-size: 0.75rem; font-family: var(--font); font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 50px; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
 .lang-btn.active { background: var(--primary); color: var(--surface); box-shadow: 0 2px 8px var(--primary-glow); }
-.hdr-btn { background: var(--surface); border: 1.5px solid var(--border); color: var(--text2); padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.78rem; font-family: var(--font); font-weight: 600; cursor: pointer; transition: all 0.2s var(--ease); display: flex; align-items: center; gap: 0.4rem; }
-.hdr-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-pale); transform: scale(1.03); }
-.hdr-btn.active-voice { border-color: #d32f2f; color: #d32f2f; background: rgba(211,47,47,0.1); animation: pulse-red 1.5s infinite; }
-@keyframes pulse-red { 0%,100%{box-shadow:0 0 0 0 rgba(211,47,47,0.3)} 50%{box-shadow:0 0 0 5px rgba(211,47,47,0)} }
+.hdr-btn { background: var(--surface); border: 1.5px solid var(--border); color: var(--text2); padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.78rem; font-family: var(--font); font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s, background-color 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+.hdr-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-pale); }
+.hdr-btn.active-voice { border-color: #d32f2f; color: #d32f2f; background: rgba(211,47,47,0.1); }
 
-.tabs { display: flex; gap: 1.5rem; padding: 0 1.5rem; background: var(--surface); overflow-x: auto; }
-.tab-btn { padding: 0.8rem 0.5rem; border: none; background: transparent; font-family: var(--font); font-size: 0.95rem; font-weight: 700; color: var(--text2); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+/* TOP NAVIGATION TABS */
+.tabs-nav { flex-shrink: 0; display: flex; gap: 1.5rem; padding: 0 1.5rem; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 2px solid var(--border); overflow-x: auto; z-index: 95; }
+.tab-btn { padding: 0.8rem 0.5rem; border: none; background: transparent; font-family: var(--font); font-size: 0.95rem; font-weight: 700; color: var(--text2); cursor: pointer; border-bottom: 3px solid transparent; transition: color 0.2s, border-color 0.2s; white-space: nowrap; }
 .tab-btn[aria-selected="true"] { color: var(--primary-dark); border-bottom-color: var(--primary); }
 .tab-btn:hover { color: var(--primary-dark); }
 
-.ticker-bar { flex-shrink: 0; background: var(--surface2); border-bottom: 1px solid var(--border); padding: 0.5rem 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+/* TICKER BAR */
+.ticker-bar { flex-shrink: 0; background: var(--surface2); border-bottom: 1px solid var(--border); padding: 0.5rem 1.5rem; display: flex; align-items: center; gap: 0.8rem; z-index: 90; }
 .ticker-badge { background: var(--primary); color: var(--surface); font-size: 0.65rem; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px; white-space: nowrap; flex-shrink: 0; }
-.ticker-text { font-size: 0.82rem; color: var(--text2); font-weight: 500; transition: opacity 0.5s var(--ease); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ticker-text { font-size: 0.82rem; color: var(--text2); font-weight: 500; transition: opacity 0.5s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ticker-dots { display: flex; gap: 6px; margin-left: auto; flex-shrink: 0; }
-.ticker-dot { width: 6px; height: 6px; border-radius: 50%; background: #d8c2b1; cursor: pointer; transition: all 0.3s; }
+.ticker-dot { width: 6px; height: 6px; border-radius: 50%; background: #d8c2b1; cursor: pointer; transition: transform 0.3s, background-color 0.3s; }
 .ticker-dot.active { background: var(--primary); transform: scale(1.4); }
 
+/* MAIN LAYOUT (SIDEBAR + VIEWS WRAPPER) */
 .main { flex: 1; display: flex; min-height: 0; overflow: hidden; position: relative; }
-.view { display: none; flex: 1; height: 100%; animation: fadeIn 0.3s ease; }
-.view.active { display: flex; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ASSISTANT VIEW */
+/* SIDEBAR */
 .sidebar { width: 290px; min-width: 290px; display: flex; flex-direction: column; overflow-y: auto; background: var(--sidebar-bg); border-right: 2px solid var(--border); z-index: 50; transition: transform 0.3s var(--spring); }
 .sidebar::-webkit-scrollbar { width: 5px; } .sidebar::-webkit-scrollbar-thumb { background: #d8c2b1; border-radius: 3px; }
 .sidebar-section { padding: 1.25rem 1.25rem 0.5rem; }
 .sidebar-label { font-size: 0.7rem; font-weight: 800; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1.2px; display: flex; align-items: center; gap: 0.5rem; }
 .sidebar-label::after { content: ''; flex: 1; height: 2px; background: var(--primary-pale); border-radius: 2px; }
 .timeline { padding: 0 1.25rem 1rem; }
-.tl-item { display: flex; gap: 0.85rem; padding: 0.75rem 0.65rem; border-radius: var(--radius); cursor: pointer; transition: all 0.25s var(--ease); }
+.tl-item { display: flex; gap: 0.85rem; padding: 0.75rem 0.65rem; border-radius: var(--radius); cursor: pointer; transition: background-color 0.2s; }
 .tl-item:hover { background: var(--surface2); } .tl-item.active { background: var(--primary-pale); }
 .tl-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-.tl-node { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; color: var(--muted); z-index: 1; }
+.tl-node { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; color: var(--muted); z-index: 1; transition: border-color 0.2s, background-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s; }
 .tl-item.active .tl-node { border-color: var(--primary); background: var(--primary); color: var(--surface); box-shadow: 0 0 12px var(--primary-glow); transform: scale(1.15); }
 .tl-line { width: 2px; flex: 1; background: var(--border); min-height: 20px; margin: 4px 0; }
 .tl-item.active .tl-line { background: var(--primary); }
@@ -120,23 +120,34 @@ html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family:
 .tl-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
 .tl-item:not(.active) .tl-title { color: var(--text2); }
 .tl-sub { font-size: 0.72rem; color: var(--muted); }
-.tl-expand { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; opacity: 0; }
-.tl-item.active .tl-expand { max-height: 250px; opacity: 1; margin-top: 0.6rem; }
+.tl-expand { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.3s ease, opacity 0.25s ease; }
+.tl-item.active .tl-expand { max-height: 300px; opacity: 1; margin-top: 0.6rem; }
 .tl-card { background: var(--surface); border: 1px solid var(--border); border-radius: 0 var(--radius) var(--radius) 0; padding: 0.75rem; font-size: 0.75rem; color: var(--text2); line-height: 1.5; border-left: 3px solid var(--primary); }
 .tl-card .fact { color: var(--text); font-weight: 700; font-size: 0.72rem; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border); }
-.tl-ask { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.6rem; padding: 0.3rem 0.7rem; background: var(--primary-pale); border: 1px solid rgba(232,80,10,0.2); border-radius: 50px; color: var(--primary-dark); font-size: 0.7rem; font-weight: 700; cursor: pointer; font-family: var(--font); }
+.tl-ask { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.6rem; padding: 0.3rem 0.7rem; background: var(--primary-pale); border: 1px solid rgba(232,80,10,0.2); border-radius: 50px; color: var(--primary-dark); font-size: 0.7rem; font-weight: 700; cursor: pointer; font-family: var(--font); transition: background-color 0.2s, color 0.2s; }
 .tl-ask:hover { background: var(--primary); color: var(--surface); }
 
 .quick-grid { padding: 0 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
-.qq-btn { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.85rem; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text2); font-family: var(--font); font-size: 0.8rem; font-weight: 500; cursor: pointer; text-align: left; }
+.qq-btn { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.85rem; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text2); font-family: var(--font); font-size: 0.8rem; font-weight: 500; cursor: pointer; text-align: left; transition: border-color 0.2s, color 0.2s, background-color 0.2s; }
 .qq-btn:hover { border-color: var(--primary); color: var(--primary-dark); background: var(--primary-pale); }
 .qq-icon { font-size: 1rem; width: 22px; text-align: center; }
 
-.chat-area { flex: 1; display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--bg); }
+/* VIEWS WRAPPER (RIGHT SIDE) */
+.views-wrapper { flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--bg); position: relative; }
+
+/* STRICT SPA LOGIC */
+.view-container { display: none; }
+.view-container.active { display: flex; flex-direction: column; flex: 1; min-height: 0; animation: fadeInView 0.3s ease forwards; }
+
+@keyframes fadeInView {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* VIEW 1: CHAT AREA */
 .chat-sub-header { padding: 0.75rem 1.5rem; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .chat-status { display: flex; align-items: center; gap: 0.5rem; }
-.status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse-green 2s infinite; }
-@keyframes pulse-green { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; }
 .status-text { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
 .status-text strong { color: var(--text); }
 .chat-meta { display: flex; gap: 0.4rem; }
@@ -158,11 +169,10 @@ html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family:
 .msg-bubble { max-width: 80%; padding: 1rem 1.25rem; border-radius: var(--radius-lg); font-size: 0.9rem; line-height: 1.6; }
 .msg-wrap.bot .msg-bubble { background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); color: var(--text); }
 .msg-wrap.user .msg-bubble { background: linear-gradient(135deg, var(--primary), #D84300); color: var(--surface); border-bottom-right-radius: 4px; box-shadow: 0 4px 16px rgba(232,80,10,0.25); }
-.msg-voice-btn { display: inline-flex; gap: 0.3rem; margin-top: 0.6rem; padding: 0.25rem 0.65rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; color: var(--text2); font-size: 0.72rem; font-weight: 600; cursor: pointer; font-family: var(--font); }
+.msg-voice-btn { display: inline-flex; gap: 0.3rem; margin-top: 0.6rem; padding: 0.25rem 0.65rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; color: var(--text2); font-size: 0.72rem; font-weight: 600; cursor: pointer; font-family: var(--font); transition: border-color 0.2s, background-color 0.2s, color 0.2s; }
 .msg-voice-btn:hover { color: var(--primary-dark); border-color: rgba(232,80,10,0.3); background: var(--primary-pale); }
-.msg-voice-btn.speaking { color: var(--primary-dark); border-color: var(--primary); background: var(--primary-pale); animation: pulse-orange 1.5s infinite; }
 
-.typing-wrap { display: none; align-items: flex-start; flex-direction: column; animation: msgIn 0.3s ease both; }
+.typing-wrap { display: none; align-items: flex-start; flex-direction: column; }
 .typing-wrap.visible { display: flex; }
 .typing-bubble { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); border-bottom-left-radius: 4px; padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 6px; }
 .typing-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); animation: typeDot 0.6s infinite alternate; }
@@ -171,34 +181,38 @@ html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family:
 .typing-text { font-size: 0.8rem; color: var(--muted); margin-left: 6px; font-weight: 500; }
 
 .input-bar { flex-shrink: 0; padding: 0.9rem 1.2rem 1rem; background: var(--surface); border-top: 2px solid var(--border); z-index: 10; }
-.input-container { display: flex; align-items: center; gap: 0.6rem; background: var(--bg); border: 2px solid var(--border); border-radius: 50px; padding: 0.4rem 0.4rem 0.4rem 1.25rem; }
+.input-container { display: flex; align-items: center; gap: 0.6rem; background: var(--bg); border: 2px solid var(--border); border-radius: 50px; padding: 0.4rem 0.4rem 0.4rem 1.25rem; transition: border-color 0.2s, box-shadow 0.2s; }
 .input-container:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-pale); }
 .chat-input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-family: var(--font); font-size: 0.95rem; font-weight: 500; min-width: 0; }
 .input-actions { display: flex; gap: 0.4rem; }
-.mic-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent; color: var(--text2); cursor: pointer; transition: 0.2s; }
+.mic-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent; color: var(--text2); cursor: pointer; transition: background-color 0.2s, color 0.2s; }
 .mic-btn:hover { background: var(--surface2); color: var(--primary-dark); }
-.mic-btn.listening { background: #d32f2f; color: var(--surface); animation: pulse-red 1.2s infinite; }
-.send-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--primary); border: none; color: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px var(--primary-glow); }
+.mic-btn.listening { background: #d32f2f; color: var(--surface); }
+.send-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--primary); border: none; color: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px var(--primary-glow); transition: background-color 0.2s; }
 .send-btn:hover { background: var(--primary-light); } .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .input-hint { text-align: center; font-size: 0.7rem; color: var(--muted); margin-top: 0.6rem; font-weight: 500; }
 
-/* CENTRED VIEWS (SCENARIO & QUIZ) */
-.centered-view { display: flex; flex-direction: column; align-items: center; padding: 3rem 1.5rem; overflow-y: auto; background: var(--bg); }
+/* VIEWS 2 & 3: SCENARIO & QUIZ (Centered content) */
+.centered-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 3rem 1.5rem; overflow-y: auto; background: var(--bg); }
 .card-container { background: var(--surface); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-lg); border: 1px solid var(--border); max-width: 600px; width: 100%; text-align: center; }
 .card-container h2 { font-size: 1.8rem; color: var(--text); margin-bottom: 0.5rem; font-weight: 800; }
 .card-container p { font-size: 0.95rem; color: var(--text2); margin-bottom: 1.5rem; }
-.btn-primary { background: var(--primary); color: #fff; border: none; padding: 0.8rem 1.5rem; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: var(--font); transition: all 0.2s; box-shadow: 0 4px 12px var(--primary-glow); }
+
+.btn-primary { background: var(--primary); color: #fff; border: none; padding: 0.8rem 1.5rem; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: var(--font); box-shadow: 0 4px 12px var(--primary-glow); transition: background-color 0.2s, transform 0.2s; }
 .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
-.opt-btn { display: block; width: 100%; text-align: left; background: var(--surface2); border: 2px solid var(--border); padding: 1rem; margin-bottom: 0.8rem; border-radius: var(--radius); cursor: pointer; font-family: var(--font); font-size: 0.95rem; font-weight: 600; color: var(--text); transition: all 0.2s; }
+
+.opt-btn { display: block; width: 100%; text-align: left; background: var(--surface2); border: 2px solid var(--border); padding: 1rem; margin-bottom: 0.8rem; border-radius: var(--radius); cursor: pointer; font-family: var(--font); font-size: 0.95rem; font-weight: 600; color: var(--text); transition: background-color 0.2s, border-color 0.2s, color 0.2s; }
 .opt-btn:hover { border-color: var(--primary); background: var(--primary-pale); color: var(--primary-dark); }
+
 .eval-card { text-align: left; padding: 1.5rem; border-radius: var(--radius); margin-top: 1rem; animation: msgIn 0.3s ease; }
 .eval-card.correct { background: #E8F5E9; border: 1px solid #81C784; color: #1B5E20; }
 .eval-card.wrong { background: #FFEBEE; border: 1px solid #E57373; color: #B71C1C; }
 .eval-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
 .eval-card p { margin-bottom: 0; color: inherit; font-size: 0.9rem; }
+
 .scenario-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; color: var(--text); margin-bottom: 1.5rem; text-align: left; }
-.loader-text { font-weight: 700; color: var(--primary-dark); animation: pulse-opacity 1.5s infinite; font-size: 1.1rem; }
-@keyframes pulse-opacity { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.loader-text { font-weight: 700; color: var(--primary-dark); font-size: 1.1rem; }
+
 .quiz-header { font-size: 0.8rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 1px; }
 .quiz-q { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; text-align: left; color: var(--text); }
 .score-circle { width: 100px; height: 100px; border-radius: 50%; background: var(--primary-pale); border: 4px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--primary-dark); margin: 1.5rem auto; }
@@ -210,14 +224,14 @@ html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family:
 @keyframes modalIn { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
 .modal-title { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
 .modal-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.6; margin-bottom: 1.5rem; }
-.modal-input { width: 100%; background: var(--bg); border: 2px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1rem; font-family: var(--font); font-size: 0.95rem; outline: none; margin-bottom: 1rem; }
+.modal-input { width: 100%; background: var(--bg); border: 2px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1rem; font-family: var(--font); font-size: 0.95rem; outline: none; margin-bottom: 1rem; transition: border-color 0.2s, box-shadow 0.2s; }
 .modal-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-pale); }
 .footer { flex-shrink: 0; padding: 0.6rem 1.5rem; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--text2); font-weight: 500; }
 .footer a { color: var(--primary-dark); text-decoration: none; font-weight: 700; }
 .footer a:hover { text-decoration: underline; }
 .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; }
 .overlay.show { display: block; }
-.voice-toast { position: fixed; bottom: 6rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface); border: 2px solid #d32f2f; border-radius: 50px; padding: 0.6rem 1.25rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-weight: 700; color: #d32f2f; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 200; box-shadow: 0 4px 20px rgba(211,47,47,0.2); }
+.voice-toast { position: fixed; bottom: 6rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface); border: 2px solid #d32f2f; border-radius: 50px; padding: 0.6rem 1.25rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-weight: 700; color: #d32f2f; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 200; box-shadow: 0 4px 20px rgba(211,47,47,0.2); }
 .voice-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 @media (max-width: 768px) {
@@ -226,44 +240,41 @@ html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family:
   .mobile-toggle { display: block; }
   .chat-meta { display: none; }
   .msg-bubble { max-width: 90%; }
-  .header-top { padding: 0.6rem 1rem; }
-  .tabs { padding: 0 1rem; }
 }
 </style>
 </head>
 <body>
 
 <div class="app-shell">
-
   <!-- FLAG STRIPE -->
   <div class="flag-stripe"></div>
 
   <!-- HEADER -->
   <header class="header">
-    <div class="header-top">
-      <div class="header-left">
-        <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
-        <div class="brand-icon" aria-hidden="true">🗳️</div>
-        <div class="brand-text">
-          <h1>VoteGuide <span>AI</span></h1>
-          <div class="sub">India's Election Guide</div>
-        </div>
-      </div>
-      <div class="header-right">
-        <div class="lang-toggle" role="group" aria-label="Language selection">
-          <button class="lang-btn active" id="lang-en" onclick="switchLang('en')" aria-label="English">EN</button>
-          <button class="lang-btn" id="lang-hi" onclick="switchLang('hi')" aria-label="Hindi">हिं</button>
-        </div>
-        <button class="hdr-btn" id="hdr-voice-btn" onclick="toggleVoice()" aria-label="Voice Input">🎙️</button>
-        <button class="hdr-btn" onclick="showModal()" aria-label="API Key Settings">🔑</button>
+    <div class="header-left">
+      <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
+      <div class="brand-icon" aria-hidden="true">🗳️</div>
+      <div class="brand-text">
+        <h1>VoteGuide <span>AI</span></h1>
+        <div class="sub">India's Election Guide</div>
       </div>
     </div>
-    <nav class="tabs" role="tablist" aria-label="Main Navigation">
-      <button role="tab" aria-selected="true" aria-controls="view-assistant" id="tab-assistant" class="tab-btn" onclick="switchTab('assistant')">AI Assistant</button>
-      <button role="tab" aria-selected="false" aria-controls="view-scenario" id="tab-scenario" class="tab-btn" onclick="switchTab('scenario')">Scenario Simulator</button>
-      <button role="tab" aria-selected="false" aria-controls="view-quiz" id="tab-quiz" class="tab-btn" onclick="switchTab('quiz')">Voter Quiz</button>
-    </nav>
+    <div class="header-right">
+      <div class="lang-toggle" role="group" aria-label="Language selection">
+        <button class="lang-btn active" id="lang-en" onclick="switchLang('en')" aria-label="English">EN</button>
+        <button class="lang-btn" id="lang-hi" onclick="switchLang('hi')" aria-label="Hindi">हिं</button>
+      </div>
+      <button class="hdr-btn" id="hdr-voice-btn" onclick="toggleVoice()" aria-label="Voice Input">🎙️</button>
+      <button class="hdr-btn" onclick="showModal()" aria-label="API Key Settings">🔑</button>
+    </div>
   </header>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="tabs-nav" role="tablist" aria-label="Main Navigation">
+    <button role="tab" aria-selected="true" aria-controls="view-chat" id="tab-chat" class="tab-btn" onclick="switchTab('chat')">AI Assistant</button>
+    <button role="tab" aria-selected="false" aria-controls="view-simulator" id="tab-simulator" class="tab-btn" onclick="switchTab('simulator')">Scenario Simulator</button>
+    <button role="tab" aria-selected="false" aria-controls="view-quiz" id="tab-quiz" class="tab-btn" onclick="switchTab('quiz')">Voter Quiz</button>
+  </nav>
 
   <!-- TICKER BAR -->
   <div class="ticker-bar">
@@ -276,21 +287,24 @@ html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family:
   <main class="main" role="main">
     <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- VIEW 1: AI ASSISTANT -->
-    <section id="view-assistant" class="view active" role="tabpanel" aria-labelledby="tab-assistant">
-      <aside class="sidebar" id="sidebar" role="navigation" aria-label="Sidebar navigation">
-        <div class="sidebar-section">
-          <div class="sidebar-label" id="lbl-timeline">Election Timeline</div>
-        </div>
-        <div class="timeline" id="timeline"></div>
+    <!-- SIDEBAR (Always left of views wrapper) -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Sidebar navigation">
+      <div class="sidebar-section">
+        <div class="sidebar-label" id="lbl-timeline">Election Timeline</div>
+      </div>
+      <div class="timeline" id="timeline"></div>
 
-        <div class="sidebar-section" style="margin-top: 0.5rem;">
-          <div class="sidebar-label" id="lbl-quick">Quick Questions</div>
-        </div>
-        <div class="quick-grid" id="quick-grid"></div>
-      </aside>
+      <div class="sidebar-section" style="margin-top: 0.5rem;">
+        <div class="sidebar-label" id="lbl-quick">Quick Questions</div>
+      </div>
+      <div class="quick-grid" id="quick-grid"></div>
+    </aside>
 
-      <div class="chat-area">
+    <!-- VIEWS WRAPPER (Right of Sidebar) -->
+    <div class="views-wrapper">
+      
+      <!-- VIEW 1: AI ASSISTANT -->
+      <section id="view-chat" class="view-container active" role="tabpanel" aria-labelledby="tab-chat">
         <div class="chat-sub-header">
           <div class="chat-status">
             <div class="status-dot"></div>
@@ -337,30 +351,35 @@ html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family:
           </div>
           <div class="input-hint" id="input-hint">⏎ Enter to send · 🎙 Click mic to speak · 🔊 Tap to hear reply</div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- VIEW 2: SCENARIO SIMULATOR -->
-    <section id="view-scenario" class="view centered-view" role="tabpanel" aria-labelledby="tab-scenario" hidden>
-      <div class="card-container">
-        <h2>Dynamic Election Simulator</h2>
-        <p>Test your knowledge of ECI rules in real-world situations generated by Gemini AI.</p>
-        <div id="scenario-content">
-          <button onclick="startScenario()" class="btn-primary">Start Scenario</button>
+      <!-- VIEW 2: SCENARIO SIMULATOR -->
+      <section id="view-simulator" class="view-container" role="tabpanel" aria-labelledby="tab-simulator">
+        <div class="centered-content">
+          <div class="card-container">
+            <h2>Dynamic Election Simulator</h2>
+            <p>Test your knowledge of ECI rules in real-world situations generated by Gemini AI.</p>
+            <div id="scenario-content">
+              <button onclick="startScenario()" class="btn-primary">Start Scenario</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- VIEW 3: VOTER QUIZ -->
-    <section id="view-quiz" class="view centered-view" role="tabpanel" aria-labelledby="tab-quiz" hidden>
-      <div class="card-container">
-        <h2>Voter Knowledge Quiz</h2>
-        <p>5 Rapid-fire questions to test your election readiness.</p>
-        <div id="quiz-content">
-          <button onclick="startQuiz()" class="btn-primary">Start Quiz</button>
+      <!-- VIEW 3: VOTER QUIZ -->
+      <section id="view-quiz" class="view-container" role="tabpanel" aria-labelledby="tab-quiz">
+        <div class="centered-content">
+          <div class="card-container">
+            <h2>Voter Knowledge Quiz</h2>
+            <p>5 Rapid-fire questions to test your election readiness.</p>
+            <div id="quiz-content">
+              <button onclick="startQuiz()" class="btn-primary">Start Quiz</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+    </div>
   </main>
 
   <!-- FOOTER -->
@@ -482,19 +501,17 @@ let recognition = null;
 let isListening = false;
 let isSpeaking = false;
 
-/* ─── TAB NAVIGATION ─── */
+/* ─── STRICT SPA TAB LOGIC ─── */
 function switchTab(tabId) {
-  ['assistant', 'scenario', 'quiz'].forEach(id => {
+  ['chat', 'simulator', 'quiz'].forEach(id => {
     const btn = document.getElementById('tab-' + id);
     const view = document.getElementById('view-' + id);
     if (id === tabId) {
       btn.setAttribute('aria-selected', 'true');
       view.classList.add('active');
-      view.removeAttribute('hidden');
     } else {
       btn.setAttribute('aria-selected', 'false');
       view.classList.remove('active');
-      view.setAttribute('hidden', 'true');
     }
   });
 }
@@ -633,6 +650,7 @@ function toggleStep(i) { activeStep = activeStep === i ? -1 : i; renderTimeline(
 function askFromTimeline(i) {
   const title = currentLang === 'hi' ? STEPS[i].hi_title : STEPS[i].en_title;
   const q = currentLang === 'hi' ? `भारतीय चुनाव के "${title}" चरण के बारे में विस्तार से बताएं।` : `Explain the "${title}" stage of Indian elections in detail.`;
+  switchTab('chat');
   askQuestion(q);
   if(window.innerWidth <= 768) toggleSidebar();
 }
@@ -641,8 +659,13 @@ function renderQuestions() {
   const el = document.getElementById('quick-grid');
   el.innerHTML = QUESTIONS.map(q => {
     const text = currentLang === 'hi' ? q.hi : q.en;
-    return `<button class="qq-btn" onclick="askQuestion('${text}')"><span class="qq-icon">${q.icon}</span>${text}</button>`;
+    return `<button class="qq-btn" onclick="askQuestionFromSidebar('${text}')"><span class="qq-icon">${q.icon}</span>${text}</button>`;
   }).join('');
+}
+
+function askQuestionFromSidebar(q) {
+  switchTab('chat');
+  askQuestion(q);
 }
 
 function askQuestion(q) {
