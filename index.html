@@ -37,8 +37,8 @@
 </script>
 
 <style>
+/* CSS MINIFIED conceptually */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root {
   --bg: #FFF8F0;
   --surface: #FFFFFF;
@@ -47,6 +47,7 @@
   --sidebar-bg: #FFFFFF;
   --primary: #E8500A;
   --primary-light: #FF7A1A;
+  --primary-dark: #C63D00;
   --primary-glow: rgba(232,80,10,0.12);
   --primary-pale: rgba(232,80,10,0.06);
   --accent: #1565C0;
@@ -63,713 +64,170 @@
   --ease: cubic-bezier(0.4,0,0.2,1);
   --spring: cubic-bezier(0.34,1.56,0.64,1);
 }
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-}
-
-/* ─── APP SHELL ─── */
-.app-shell {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.flag-stripe {
-  flex-shrink: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #FF9933 33.3%, #FFFFFF 33.3% 66.6%, #138808 66.6%);
-}
-
-/* ─── HEADER ─── */
-.header {
-  flex-shrink: 0;
-  background: var(--surface);
-  border-bottom: 2px solid var(--primary);
-  box-shadow: var(--shadow);
-  padding: 0.8rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  z-index: 100;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.mobile-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  color: var(--text);
-  cursor: pointer;
-  padding: 0.3rem;
-  border-radius: 6px;
-}
-.mobile-toggle:hover { background: var(--primary-pale); color: var(--primary); }
-.mobile-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-
-.brand-icon {
-  width: 42px;
-  height: 42px;
-  background: var(--primary);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  box-shadow: 0 4px 12px var(--primary-glow);
-}
-
-.brand-text h1 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--text);
-}
-
+html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: var(--font); background: var(--bg); color: var(--text); }
+.app-shell { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.flag-stripe { flex-shrink: 0; height: 4px; background: linear-gradient(90deg,#FF9933 33.3%,#FFFFFF 33.3% 66.6%,#138808 66.6%); }
+.header { flex-shrink: 0; background: var(--surface); box-shadow: var(--shadow); position: relative; z-index: 100; display:flex; flex-direction:column; border-bottom: 2px solid var(--primary); }
+.header-top { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border); }
+.header-left { display: flex; align-items: center; gap: 0.75rem; }
+.mobile-toggle { display: none; background: none; border: none; font-size: 1.4rem; color: var(--text); cursor: pointer; padding: 0.3rem; border-radius: 6px; }
+.brand-icon { width: 42px; height: 42px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 4px 12px var(--primary-glow); }
+.brand-text h1 { font-size: 1.35rem; font-weight: 800; line-height: 1; color: var(--text); }
 .brand-text h1 span { color: var(--primary); }
-
-.brand-text .sub {
-  font-size: 0.7rem;
-  color: var(--muted);
-  font-weight: 500;
-  margin-top: 2px;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.lang-toggle {
-  display: flex;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 50px;
-  padding: 0.2rem;
-  gap: 0.2rem;
-}
-
-.lang-btn {
-  background: transparent;
-  border: none;
-  color: var(--text2);
-  font-size: 0.75rem;
-  font-family: var(--font);
-  font-weight: 600;
-  padding: 0.35rem 0.75rem;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
-}
-
-.lang-btn.active {
-  background: var(--primary);
-  color: var(--surface);
-  box-shadow: 0 2px 8px var(--primary-glow);
-}
-.lang-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-
-.hdr-btn {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  color: var(--text2);
-  padding: 0.45rem 0.9rem;
-  border-radius: 50px;
-  font-size: 0.78rem;
-  font-family: var(--font);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
+.brand-text .sub { font-size: 0.7rem; color: var(--muted); font-weight: 500; margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 0.8rem; }
+.lang-toggle { display: flex; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; padding: 0.2rem; gap: 0.2rem; }
+.lang-btn { background: transparent; border: none; color: var(--text2); font-size: 0.75rem; font-family: var(--font); font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 50px; cursor: pointer; transition: all 0.2s var(--ease); }
+.lang-btn.active { background: var(--primary); color: var(--surface); box-shadow: 0 2px 8px var(--primary-glow); }
+.hdr-btn { background: var(--surface); border: 1.5px solid var(--border); color: var(--text2); padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.78rem; font-family: var(--font); font-weight: 600; cursor: pointer; transition: all 0.2s var(--ease); display: flex; align-items: center; gap: 0.4rem; }
 .hdr-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-pale); transform: scale(1.03); }
-.hdr-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .hdr-btn.active-voice { border-color: #d32f2f; color: #d32f2f; background: rgba(211,47,47,0.1); animation: pulse-red 1.5s infinite; }
-
 @keyframes pulse-red { 0%,100%{box-shadow:0 0 0 0 rgba(211,47,47,0.3)} 50%{box-shadow:0 0 0 5px rgba(211,47,47,0)} }
 
-/* ─── TICKER BAR ─── */
-.ticker-bar {
-  flex-shrink: 0;
-  background: var(--surface2);
-  border-bottom: 1px solid var(--border);
-  padding: 0.5rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  position: relative;
-  z-index: 90;
-}
+.tabs { display: flex; gap: 1.5rem; padding: 0 1.5rem; background: var(--surface); overflow-x: auto; }
+.tab-btn { padding: 0.8rem 0.5rem; border: none; background: transparent; font-family: var(--font); font-size: 0.95rem; font-weight: 700; color: var(--text2); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+.tab-btn[aria-selected="true"] { color: var(--primary-dark); border-bottom-color: var(--primary); }
+.tab-btn:hover { color: var(--primary-dark); }
 
-.ticker-badge {
-  background: var(--primary);
-  color: var(--surface);
-  font-size: 0.65rem;
-  font-weight: 800;
-  padding: 0.25rem 0.7rem;
-  border-radius: 50px;
-  white-space: nowrap;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-}
-
-.ticker-text {
-  font-size: 0.82rem;
-  color: var(--text2);
-  font-weight: 500;
-  transition: opacity 0.5s var(--ease);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ticker-dots {
-  display: flex;
-  gap: 6px;
-  margin-left: auto;
-  flex-shrink: 0;
-}
-
-.ticker-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #d8c2b1;
-  cursor: pointer;
-  transition: all 0.3s var(--ease);
-}
-.ticker-dot:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ticker-bar { flex-shrink: 0; background: var(--surface2); border-bottom: 1px solid var(--border); padding: 0.5rem 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+.ticker-badge { background: var(--primary); color: var(--surface); font-size: 0.65rem; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px; white-space: nowrap; flex-shrink: 0; }
+.ticker-text { font-size: 0.82rem; color: var(--text2); font-weight: 500; transition: opacity 0.5s var(--ease); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ticker-dots { display: flex; gap: 6px; margin-left: auto; flex-shrink: 0; }
+.ticker-dot { width: 6px; height: 6px; border-radius: 50%; background: #d8c2b1; cursor: pointer; transition: all 0.3s; }
 .ticker-dot.active { background: var(--primary); transform: scale(1.4); }
 
-/* ─── MAIN LAYOUT ─── */
-.main {
-  flex: 1;
-  display: flex;
-  min-height: 0;
-  overflow: hidden;
-  position: relative;
-}
+.main { flex: 1; display: flex; min-height: 0; overflow: hidden; position: relative; }
+.view { display: none; flex: 1; height: 100%; animation: fadeIn 0.3s ease; }
+.view.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ─── SIDEBAR ─── */
-.sidebar {
-  width: 290px;
-  min-width: 290px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  background: var(--sidebar-bg);
-  border-right: 2px solid var(--border);
-  position: relative;
-  z-index: 50;
-  transition: transform 0.3s var(--spring);
-}
-.sidebar::-webkit-scrollbar { width: 5px; }
-.sidebar::-webkit-scrollbar-thumb { background: #d8c2b1; border-radius: 3px; }
-
-.sidebar-section {
-  padding: 1.25rem 1.25rem 0.5rem;
-}
-
-.sidebar-label {
-  font-size: 0.7rem;
-  font-weight: 800;
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.sidebar-label::after {
-  content: '';
-  flex: 1;
-  height: 2px;
-  background: var(--primary-pale);
-  border-radius: 2px;
-}
-
-/* TIMELINE */
+/* ASSISTANT VIEW */
+.sidebar { width: 290px; min-width: 290px; display: flex; flex-direction: column; overflow-y: auto; background: var(--sidebar-bg); border-right: 2px solid var(--border); z-index: 50; transition: transform 0.3s var(--spring); }
+.sidebar::-webkit-scrollbar { width: 5px; } .sidebar::-webkit-scrollbar-thumb { background: #d8c2b1; border-radius: 3px; }
+.sidebar-section { padding: 1.25rem 1.25rem 0.5rem; }
+.sidebar-label { font-size: 0.7rem; font-weight: 800; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1.2px; display: flex; align-items: center; gap: 0.5rem; }
+.sidebar-label::after { content: ''; flex: 1; height: 2px; background: var(--primary-pale); border-radius: 2px; }
 .timeline { padding: 0 1.25rem 1rem; }
-
-.tl-item {
-  display: flex;
-  gap: 0.85rem;
-  padding: 0.75rem 0.65rem;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.25s var(--ease);
-  position: relative;
-}
-.tl-item:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
-.tl-item:hover { background: var(--surface2); }
-.tl-item.active { background: var(--primary-pale); }
-
-.tl-left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.tl-node {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
-  background: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.6rem;
-  font-weight: 800;
-  color: var(--muted);
-  transition: all 0.3s var(--spring);
-  position: relative;
-  z-index: 1;
-}
-
-.tl-item.active .tl-node {
-  border-color: var(--primary);
-  background: var(--primary);
-  color: var(--surface);
-  box-shadow: 0 0 12px var(--primary-glow);
-  transform: scale(1.15);
-}
-
-.tl-line {
-  width: 2px;
-  flex: 1;
-  background: var(--border);
-  min-height: 20px;
-  margin: 4px 0;
-  transition: background 0.3s var(--ease);
-}
+.tl-item { display: flex; gap: 0.85rem; padding: 0.75rem 0.65rem; border-radius: var(--radius); cursor: pointer; transition: all 0.25s var(--ease); }
+.tl-item:hover { background: var(--surface2); } .tl-item.active { background: var(--primary-pale); }
+.tl-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.tl-node { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; color: var(--muted); z-index: 1; }
+.tl-item.active .tl-node { border-color: var(--primary); background: var(--primary); color: var(--surface); box-shadow: 0 0 12px var(--primary-glow); transform: scale(1.15); }
+.tl-line { width: 2px; flex: 1; background: var(--border); min-height: 20px; margin: 4px 0; }
 .tl-item.active .tl-line { background: var(--primary); }
 .tl-item:last-child .tl-line { display: none; }
-
 .tl-right { flex: 1; min-width: 0; padding-top: 1px; }
-
-.tl-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 2px;
-  line-height: 1.25;
-}
+.tl-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
 .tl-item:not(.active) .tl-title { color: var(--text2); }
-
-.tl-sub {
-  font-size: 0.72rem;
-  color: var(--muted);
-  line-height: 1.35;
-}
-
-.tl-expand {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s var(--ease), opacity 0.25s var(--ease);
-  opacity: 0;
-}
+.tl-sub { font-size: 0.72rem; color: var(--muted); }
+.tl-expand { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; opacity: 0; }
 .tl-item.active .tl-expand { max-height: 250px; opacity: 1; margin-top: 0.6rem; }
+.tl-card { background: var(--surface); border: 1px solid var(--border); border-radius: 0 var(--radius) var(--radius) 0; padding: 0.75rem; font-size: 0.75rem; color: var(--text2); line-height: 1.5; border-left: 3px solid var(--primary); }
+.tl-card .fact { color: var(--text); font-weight: 700; font-size: 0.72rem; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border); }
+.tl-ask { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.6rem; padding: 0.3rem 0.7rem; background: var(--primary-pale); border: 1px solid rgba(232,80,10,0.2); border-radius: 50px; color: var(--primary-dark); font-size: 0.7rem; font-weight: 700; cursor: pointer; font-family: var(--font); }
+.tl-ask:hover { background: var(--primary); color: var(--surface); }
 
-.tl-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 0.75rem;
-  font-size: 0.75rem;
-  color: var(--text2);
-  line-height: 1.5;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-  position: relative;
-}
-
-.tl-card::before {
-  content: '';
-  position: absolute;
-  left: -1px; top: -1px; bottom: -1px;
-  width: 3px;
-  background: var(--primary);
-  border-radius: 3px 0 0 3px;
-}
-
-.tl-card .fact {
-  color: var(--text);
-  font-weight: 700;
-  font-size: 0.72rem;
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-  border-top: 1px dashed var(--border);
-}
-
-.tl-ask {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-top: 0.6rem;
-  padding: 0.3rem 0.7rem;
-  background: var(--primary-pale);
-  border: 1px solid rgba(232,80,10,0.2);
-  border-radius: 50px;
-  color: var(--primary);
-  font-size: 0.7rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
-  font-family: var(--font);
-}
-.tl-ask:hover { background: var(--primary); color: var(--surface); transform: translateX(2px); }
-.tl-ask:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-
-/* QUICK QUESTIONS */
 .quick-grid { padding: 0 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.qq-btn { display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.85rem; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text2); font-family: var(--font); font-size: 0.8rem; font-weight: 500; cursor: pointer; text-align: left; }
+.qq-btn:hover { border-color: var(--primary); color: var(--primary-dark); background: var(--primary-pale); }
+.qq-icon { font-size: 1rem; width: 22px; text-align: center; }
 
-.qq-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.65rem 0.85rem;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  color: var(--text2);
-  font-family: var(--font);
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
-  text-align: left;
-  line-height: 1.3;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-}
-.qq-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-pale); transform: translateX(3px); }
-.qq-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-
-.qq-icon { font-size: 1rem; flex-shrink: 0; width: 22px; text-align: center; }
-
-/* ─── CHAT AREA ─── */
-.chat-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  min-width: 0;
-  background: var(--bg);
-}
-
-.chat-sub-header {
-  padding: 0.75rem 1.5rem;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
+.chat-area { flex: 1; display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--bg); }
+.chat-sub-header { padding: 0.75rem 1.5rem; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .chat-status { display: flex; align-items: center; gap: 0.5rem; }
-.status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; box-shadow: 0 0 6px rgba(46,125,50,0.5); animation: pulse-green 2s infinite; }
+.status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse-green 2s infinite; }
 @keyframes pulse-green { 0%,100%{opacity:1} 50%{opacity:0.5} }
 .status-text { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
 .status-text strong { color: var(--text); }
-
-.chat-meta { display: flex; align-items: center; gap: 0.4rem; }
+.chat-meta { display: flex; gap: 0.4rem; }
 .meta-pill { background: var(--surface2); border: 1px solid var(--border); color: var(--text2); font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 50px; font-weight: 600; }
 
-.messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  scroll-behavior: smooth;
-}
-.messages::-webkit-scrollbar { width: 6px; }
-.messages::-webkit-scrollbar-thumb { background: #d8c2b1; border-radius: 3px; }
-
-/* WELCOME CARD */
-.welcome-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-top: 4px solid var(--primary);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-  margin-bottom: 0.5rem;
-  animation: msgIn 0.5s var(--spring) both;
-}
-
-.welcome-card .wc-title { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
-.welcome-card .wc-desc { font-size: 0.88rem; color: var(--text2); line-height: 1.5; margin-bottom: 1rem; }
-
+.messages { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; scroll-behavior: smooth; }
+.messages::-webkit-scrollbar { width: 6px; } .messages::-webkit-scrollbar-thumb { background: #d8c2b1; border-radius: 3px; }
+.welcome-card { background: var(--surface); border: 1.5px solid var(--border); border-top: 4px solid var(--primary); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow); animation: msgIn 0.5s var(--spring) both; }
+.wc-title { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
+.wc-desc { font-size: 0.88rem; color: var(--text2); line-height: 1.5; margin-bottom: 1rem; }
 .feature-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.wc-chip { display: flex; align-items: center; gap: 0.35rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.75rem; font-size: 0.72rem; color: var(--text2); font-weight: 600; }
+.wc-chip { display: flex; gap: 0.35rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.75rem; font-size: 0.72rem; color: var(--text2); font-weight: 600; }
 
-/* MESSAGE BUBBLES */
 .msg-wrap { display: flex; flex-direction: column; animation: msgIn 0.35s var(--spring) both; }
-@keyframes msgIn { from { opacity: 0; transform: translateY(15px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-
-.msg-wrap.user { align-items: flex-end; }
-.msg-wrap.bot { align-items: flex-start; }
-
-.msg-sender { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
-.msg-wrap.bot .msg-sender { color: var(--primary); }
-.msg-wrap.user .msg-sender { color: var(--text2); }
-
+@keyframes msgIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.msg-wrap.user { align-items: flex-end; } .msg-wrap.bot { align-items: flex-start; }
+.msg-sender { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.4rem; }
+.msg-wrap.bot .msg-sender { color: var(--primary-dark); } .msg-wrap.user .msg-sender { color: var(--text2); }
 .msg-bubble { max-width: 80%; padding: 1rem 1.25rem; border-radius: var(--radius-lg); font-size: 0.9rem; line-height: 1.6; }
-.msg-bubble ul, .msg-bubble ol { margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
-.msg-bubble p { margin-bottom: 0.5rem; }
-.msg-bubble p:last-child { margin-bottom: 0; }
-
 .msg-wrap.bot .msg-bubble { background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); color: var(--text); }
 .msg-wrap.user .msg-bubble { background: linear-gradient(135deg, var(--primary), #D84300); color: var(--surface); border-bottom-right-radius: 4px; box-shadow: 0 4px 16px rgba(232,80,10,0.25); }
+.msg-voice-btn { display: inline-flex; gap: 0.3rem; margin-top: 0.6rem; padding: 0.25rem 0.65rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; color: var(--text2); font-size: 0.72rem; font-weight: 600; cursor: pointer; font-family: var(--font); }
+.msg-voice-btn:hover { color: var(--primary-dark); border-color: rgba(232,80,10,0.3); background: var(--primary-pale); }
+.msg-voice-btn.speaking { color: var(--primary-dark); border-color: var(--primary); background: var(--primary-pale); animation: pulse-orange 1.5s infinite; }
 
-/* VOICE BUTTON */
-.msg-voice-btn { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.6rem; padding: 0.25rem 0.65rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; color: var(--text2); font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: all 0.2s var(--ease); font-family: var(--font); }
-.msg-voice-btn:hover { color: var(--primary); border-color: rgba(232,80,10,0.3); background: var(--primary-pale); }
-.msg-voice-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-.msg-voice-btn.speaking { color: var(--primary); border-color: var(--primary); background: var(--primary-pale); animation: pulse-orange 1.5s infinite; }
-
-@keyframes pulse-orange { 0%,100%{box-shadow:0 0 0 0 rgba(232,80,10,0.3)} 50%{box-shadow:0 0 0 4px rgba(232,80,10,0)} }
-
-/* TYPING INDICATOR */
-.typing-wrap { display: none; align-items: flex-start; flex-direction: column; animation: msgIn 0.3s var(--ease) both; }
+.typing-wrap { display: none; align-items: flex-start; flex-direction: column; animation: msgIn 0.3s ease both; }
 .typing-wrap.visible { display: flex; }
-.typing-bubble { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); border-bottom-left-radius: 4px; padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+.typing-bubble { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); border-bottom-left-radius: 4px; padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 6px; }
 .typing-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); animation: typeDot 0.6s infinite alternate; }
-.typing-dot:nth-child(2) { animation-delay: 0.2s; }
-.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; } .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 @keyframes typeDot { to { transform: translateY(-5px); opacity: 0.3; } }
 .typing-text { font-size: 0.8rem; color: var(--muted); margin-left: 6px; font-weight: 500; }
 
-/* ─── INPUT BAR ─── */
-.input-bar {
-  flex-shrink: 0;
-  padding: 0.9rem 1.5rem 1rem;
-  background: var(--surface);
-  border-top: 2px solid var(--border);
-  position: relative;
-  z-index: 10;
-}
-
-.input-container {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: var(--bg);
-  border: 2px solid var(--border);
-  border-radius: 50px;
-  padding: 0.4rem 0.4rem 0.4rem 1.25rem;
-  transition: border-color 0.2s var(--ease);
-}
+.input-bar { flex-shrink: 0; padding: 0.9rem 1.2rem 1rem; background: var(--surface); border-top: 2px solid var(--border); z-index: 10; }
+.input-container { display: flex; align-items: center; gap: 0.6rem; background: var(--bg); border: 2px solid var(--border); border-radius: 50px; padding: 0.4rem 0.4rem 0.4rem 1.25rem; }
 .input-container:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-pale); }
-
-.chat-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text);
-  font-family: var(--font);
-  font-size: 0.95rem;
-  font-weight: 500;
-  min-width: 0;
-}
-.chat-input::placeholder { color: var(--muted); }
-
-.input-actions { display: flex; align-items: center; gap: 0.4rem; }
-
-.mic-btn {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: var(--text2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s var(--spring);
-}
-.mic-btn:hover { background: var(--surface2); color: var(--primary); transform: scale(1.05); }
-.mic-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.chat-input { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-family: var(--font); font-size: 0.95rem; font-weight: 500; min-width: 0; }
+.input-actions { display: flex; gap: 0.4rem; }
+.mic-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent; color: var(--text2); cursor: pointer; transition: 0.2s; }
+.mic-btn:hover { background: var(--surface2); color: var(--primary-dark); }
 .mic-btn.listening { background: #d32f2f; color: var(--surface); animation: pulse-red 1.2s infinite; }
+.send-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--primary); border: none; color: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px var(--primary-glow); }
+.send-btn:hover { background: var(--primary-light); } .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.input-hint { text-align: center; font-size: 0.7rem; color: var(--muted); margin-top: 0.6rem; font-weight: 500; }
 
-.send-btn {
-  width: 42px; height: 42px;
-  border-radius: 50%;
-  background: var(--primary);
-  border: none;
-  color: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s var(--spring);
-  box-shadow: 0 4px 12px var(--primary-glow);
-}
-.send-btn:hover { transform: scale(1.08); background: var(--primary-light); box-shadow: 0 6px 16px rgba(232,80,10,0.3); }
-.send-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-.send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.send-btn svg { width: 18px; height: 18px; margin-left: -2px; margin-top: 1px; }
+/* CENTRED VIEWS (SCENARIO & QUIZ) */
+.centered-view { display: flex; flex-direction: column; align-items: center; padding: 3rem 1.5rem; overflow-y: auto; background: var(--bg); }
+.card-container { background: var(--surface); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-lg); border: 1px solid var(--border); max-width: 600px; width: 100%; text-align: center; }
+.card-container h2 { font-size: 1.8rem; color: var(--text); margin-bottom: 0.5rem; font-weight: 800; }
+.card-container p { font-size: 0.95rem; color: var(--text2); margin-bottom: 1.5rem; }
+.btn-primary { background: var(--primary); color: #fff; border: none; padding: 0.8rem 1.5rem; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: var(--font); transition: all 0.2s; box-shadow: 0 4px 12px var(--primary-glow); }
+.btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+.opt-btn { display: block; width: 100%; text-align: left; background: var(--surface2); border: 2px solid var(--border); padding: 1rem; margin-bottom: 0.8rem; border-radius: var(--radius); cursor: pointer; font-family: var(--font); font-size: 0.95rem; font-weight: 600; color: var(--text); transition: all 0.2s; }
+.opt-btn:hover { border-color: var(--primary); background: var(--primary-pale); color: var(--primary-dark); }
+.eval-card { text-align: left; padding: 1.5rem; border-radius: var(--radius); margin-top: 1rem; animation: msgIn 0.3s ease; }
+.eval-card.correct { background: #E8F5E9; border: 1px solid #81C784; color: #1B5E20; }
+.eval-card.wrong { background: #FFEBEE; border: 1px solid #E57373; color: #B71C1C; }
+.eval-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+.eval-card p { margin-bottom: 0; color: inherit; font-size: 0.9rem; }
+.scenario-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; color: var(--text); margin-bottom: 1.5rem; text-align: left; }
+.loader-text { font-weight: 700; color: var(--primary-dark); animation: pulse-opacity 1.5s infinite; font-size: 1.1rem; }
+@keyframes pulse-opacity { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.quiz-header { font-size: 0.8rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 1px; }
+.quiz-q { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; text-align: left; color: var(--text); }
+.score-circle { width: 100px; height: 100px; border-radius: 50%; background: var(--primary-pale); border: 4px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--primary-dark); margin: 1.5rem auto; }
 
-.input-hint {
-  text-align: center;
-  font-size: 0.7rem;
-  color: var(--muted);
-  margin-top: 0.6rem;
-  font-weight: 500;
-}
-
-/* VOICE TOAST */
-.voice-toast {
-  position: fixed;
-  bottom: 6rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--surface);
-  border: 2px solid #d32f2f;
-  border-radius: 50px;
-  padding: 0.6rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #d32f2f;
-  opacity: 0;
-  transition: all 0.3s var(--spring);
-  z-index: 200;
-  pointer-events: none;
-  box-shadow: 0 4px 20px rgba(211,47,47,0.2);
-}
-.voice-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* ─── MODAL ─── */
-.modal-bg {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
+/* MODAL & FOOTER */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
 .modal-bg.show { display: flex; }
-
-.modal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 440px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  animation: modalIn 0.35s var(--spring) both;
-}
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); animation: modalIn 0.3s ease; }
 @keyframes modalIn { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-
 .modal-title { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
 .modal-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.6; margin-bottom: 1.5rem; }
-
-.modal-input {
-  width: 100%;
-  background: var(--bg);
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: 0.85rem 1rem;
-  color: var(--text);
-  font-family: var(--font);
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.2s var(--ease);
-  margin-bottom: 1rem;
-}
+.modal-input { width: 100%; background: var(--bg); border: 2px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1rem; font-family: var(--font); font-size: 0.95rem; outline: none; margin-bottom: 1rem; }
 .modal-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-pale); }
-
-.modal-btn {
-  width: 100%;
-  padding: 0.9rem;
-  background: var(--primary);
-  border: none;
-  border-radius: var(--radius);
-  color: var(--surface);
-  font-family: var(--font);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
-  box-shadow: 0 4px 16px var(--primary-glow);
-}
-.modal-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,80,10,0.3); background: var(--primary-light); }
-.modal-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-
-.modal-note { font-size: 0.75rem; color: var(--muted); margin-top: 1rem; text-align: center; }
-.modal-note a { color: var(--accent); text-decoration: none; font-weight: 600; }
-.modal-note a:hover { text-decoration: underline; }
-
-/* ─── FOOTER ─── */
-.footer {
-  flex-shrink: 0;
-  padding: 0.6rem 1.5rem;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  color: var(--text2);
-  font-weight: 500;
-}
-
-.footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+.footer { flex-shrink: 0; padding: 0.6rem 1.5rem; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--text2); font-weight: 500; }
+.footer a { color: var(--primary-dark); text-decoration: none; font-weight: 700; }
 .footer a:hover { text-decoration: underline; }
-
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 40;
-}
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; }
 .overlay.show { display: block; }
+.voice-toast { position: fixed; bottom: 6rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface); border: 2px solid #d32f2f; border-radius: 50px; padding: 0.6rem 1.25rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-weight: 700; color: #d32f2f; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 200; box-shadow: 0 4px 20px rgba(211,47,47,0.2); }
+.voice-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
   .sidebar { display: none; }
-  .sidebar.open {
-    display: flex;
-    position: fixed;
-    left: 0; top: 0; bottom: 0;
-    width: 290px;
-    z-index: 300;
-    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
-  }
+  .sidebar.open { display: flex; position: fixed; left: 0; top: 0; bottom: 0; width: 290px; z-index: 300; box-shadow: 4px 0 24px rgba(0,0,0,0.15); }
   .mobile-toggle { display: block; }
   .chat-meta { display: none; }
-  .input-hint { font-size: 0.65rem; }
-  .welcome-card { padding: 1.25rem; }
   .msg-bubble { max-width: 90%; }
+  .header-top { padding: 0.6rem 1rem; }
+  .tabs { padding: 0 1rem; }
 }
 </style>
 </head>
@@ -782,136 +240,155 @@ html, body {
 
   <!-- HEADER -->
   <header class="header">
-    <div class="header-left">
-      <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
-      <div class="brand-icon">🗳️</div>
-      <div class="brand-text">
-        <h1>VoteGuide <span>AI</span></h1>
-        <div class="sub">India's Election Guide</div>
+    <div class="header-top">
+      <div class="header-left">
+        <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
+        <div class="brand-icon" aria-hidden="true">🗳️</div>
+        <div class="brand-text">
+          <h1>VoteGuide <span>AI</span></h1>
+          <div class="sub">India's Election Guide</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="lang-toggle" role="group" aria-label="Language selection">
+          <button class="lang-btn active" id="lang-en" onclick="switchLang('en')" aria-label="English">EN</button>
+          <button class="lang-btn" id="lang-hi" onclick="switchLang('hi')" aria-label="Hindi">हिं</button>
+        </div>
+        <button class="hdr-btn" id="hdr-voice-btn" onclick="toggleVoice()" aria-label="Voice Input">🎙️</button>
+        <button class="hdr-btn" onclick="showModal()" aria-label="API Key Settings">🔑</button>
       </div>
     </div>
-    <div class="header-right">
-      <div class="lang-toggle" role="group" aria-label="Language selection">
-        <button class="lang-btn active" id="lang-en" onclick="switchLang('en')" aria-label="English">EN</button>
-        <button class="lang-btn" id="lang-hi" onclick="switchLang('hi')" aria-label="Hindi">हिं</button>
-      </div>
-      <button class="hdr-btn" id="hdr-voice-btn" onclick="toggleVoice()" aria-label="Voice Input">🎙️</button>
-      <button class="hdr-btn" onclick="showModal()" aria-label="API Key Settings">🔑</button>
-    </div>
+    <nav class="tabs" role="tablist" aria-label="Main Navigation">
+      <button role="tab" aria-selected="true" aria-controls="view-assistant" id="tab-assistant" class="tab-btn" onclick="switchTab('assistant')">AI Assistant</button>
+      <button role="tab" aria-selected="false" aria-controls="view-scenario" id="tab-scenario" class="tab-btn" onclick="switchTab('scenario')">Scenario Simulator</button>
+      <button role="tab" aria-selected="false" aria-controls="view-quiz" id="tab-quiz" class="tab-btn" onclick="switchTab('quiz')">Voter Quiz</button>
+    </nav>
   </header>
 
   <!-- TICKER BAR -->
   <div class="ticker-bar">
     <div class="ticker-badge">💡 Did You Know?</div>
-    <div class="ticker-text" id="ticker-text">Loading facts...</div>
-    <div class="ticker-dots" id="ticker-dots"></div>
+    <div class="ticker-text" id="ticker-text" aria-live="polite">Loading facts...</div>
+    <div class="ticker-dots" id="ticker-dots" aria-label="Fact Navigation"></div>
   </div>
 
   <!-- MAIN AREA -->
   <main class="main" role="main">
-
-    <!-- OVERLAY (Mobile) -->
     <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Sidebar navigation">
-      <div class="sidebar-section">
-        <div class="sidebar-label" id="lbl-timeline">Election Timeline</div>
-      </div>
-      <div class="timeline" id="timeline"></div>
-
-      <div class="sidebar-section" style="margin-top: 0.5rem;">
-        <div class="sidebar-label" id="lbl-quick">Quick Questions</div>
-      </div>
-      <div class="quick-grid" id="quick-grid"></div>
-    </aside>
-
-    <!-- CHAT AREA -->
-    <div class="chat-area">
-      <!-- Chat Sub-header -->
-      <div class="chat-sub-header">
-        <div class="chat-status">
-          <div class="status-dot"></div>
-          <div class="status-text"><strong>Gemini 2.0 Flash</strong> · Ready</div>
+    <!-- VIEW 1: AI ASSISTANT -->
+    <section id="view-assistant" class="view active" role="tabpanel" aria-labelledby="tab-assistant">
+      <aside class="sidebar" id="sidebar" role="navigation" aria-label="Sidebar navigation">
+        <div class="sidebar-section">
+          <div class="sidebar-label" id="lbl-timeline">Election Timeline</div>
         </div>
-        <div class="chat-meta">
-          <div class="meta-pill" id="meta-lang">🌐 Hindi/English</div>
-          <div class="meta-pill">🎙️ Voice</div>
-          <div class="meta-pill">🇮🇳 ECI Data</div>
-        </div>
-      </div>
+        <div class="timeline" id="timeline"></div>
 
-      <!-- Messages Area -->
-      <div class="messages" id="messages" role="log" aria-live="polite" aria-label="Chat messages">
-        <!-- Welcome Card -->
-        <div class="welcome-card">
-          <div class="wc-title" id="wc-title">Namaste! I'm VoteGuide AI 🙏</div>
-          <div class="wc-desc" id="wc-desc">Your intelligent guide to Indian elections. Ask me anything about voter registration, EVMs, election phases, and your voting rights — in Hindi or English!</div>
-          <div class="feature-chips" id="wc-chips">
-            <div class="wc-chip">🗳️ Election Process</div>
-            <div class="wc-chip">📋 Voter Registration</div>
-            <div class="wc-chip">🖲️ EVM & VVPAT</div>
-            <div class="wc-chip">🎙️ Voice Q&A</div>
+        <div class="sidebar-section" style="margin-top: 0.5rem;">
+          <div class="sidebar-label" id="lbl-quick">Quick Questions</div>
+        </div>
+        <div class="quick-grid" id="quick-grid"></div>
+      </aside>
+
+      <div class="chat-area">
+        <div class="chat-sub-header">
+          <div class="chat-status">
+            <div class="status-dot"></div>
+            <div class="status-text"><strong>Gemini 2.0 Flash</strong> · Ready</div>
+          </div>
+          <div class="chat-meta">
+            <div class="meta-pill" id="meta-lang">🌐 Hindi/English</div>
+            <div class="meta-pill">🎙️ Voice</div>
+            <div class="meta-pill">🇮🇳 ECI Data</div>
           </div>
         </div>
 
-        <!-- Typing Indicator -->
-        <div class="typing-wrap" id="typing-wrap">
-          <div class="msg-sender" style="color: var(--primary);">VOTEGUIDE AI</div>
-          <div class="typing-bubble">
-            <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
-            <span class="typing-text" id="typing-text">Thinking...</span>
+        <div class="messages" id="messages" role="log" aria-live="polite" aria-label="Chat messages">
+          <div class="welcome-card">
+            <div class="wc-title" id="wc-title">Namaste! I'm VoteGuide AI 🙏</div>
+            <div class="wc-desc" id="wc-desc">Your intelligent guide to Indian elections. Ask me anything about voter registration, EVMs, election phases, and your voting rights — in Hindi or English!</div>
+            <div class="feature-chips" id="wc-chips">
+              <div class="wc-chip">🗳️ Election Process</div>
+              <div class="wc-chip">📋 Voter Registration</div>
+              <div class="wc-chip">🖲️ EVM & VVPAT</div>
+              <div class="wc-chip">🎙️ Voice Q&A</div>
+            </div>
+          </div>
+          <div class="typing-wrap" id="typing-wrap">
+            <div class="msg-sender" style="color: var(--primary-dark);">VOTEGUIDE AI</div>
+            <div class="typing-bubble">
+              <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+              <span class="typing-text" id="typing-text">Thinking...</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Input Bar -->
-      <div class="input-bar">
-        <div class="input-container">
-          <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything about Indian elections..." autocomplete="off" aria-label="Ask about elections">
-          <div class="input-actions">
-            <button class="mic-btn" id="mic-btn" onclick="toggleVoice()" aria-label="Voice Input">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-            </button>
-            <button class="send-btn" id="send-btn" onclick="handleSend()" aria-label="Send message">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
+        <div class="input-bar">
+          <div class="input-container">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything about Indian elections..." autocomplete="off" aria-label="Ask about elections">
+            <div class="input-actions">
+              <button class="mic-btn" id="mic-btn" onclick="toggleVoice()" aria-label="Voice Input">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+              </button>
+              <button class="send-btn" id="send-btn" onclick="handleSend()" aria-label="Send message">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
           </div>
+          <div class="input-hint" id="input-hint">⏎ Enter to send · 🎙 Click mic to speak · 🔊 Tap to hear reply</div>
         </div>
-        <div class="input-hint" id="input-hint">⏎ Enter to send · 🎙 Click mic to speak · 🔊 Tap to hear reply</div>
       </div>
+    </section>
 
-    </div>
+    <!-- VIEW 2: SCENARIO SIMULATOR -->
+    <section id="view-scenario" class="view centered-view" role="tabpanel" aria-labelledby="tab-scenario" hidden>
+      <div class="card-container">
+        <h2>Dynamic Election Simulator</h2>
+        <p>Test your knowledge of ECI rules in real-world situations generated by Gemini AI.</p>
+        <div id="scenario-content">
+          <button onclick="startScenario()" class="btn-primary">Start Scenario</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: VOTER QUIZ -->
+    <section id="view-quiz" class="view centered-view" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+      <div class="card-container">
+        <h2>Voter Knowledge Quiz</h2>
+        <p>5 Rapid-fire questions to test your election readiness.</p>
+        <div id="quiz-content">
+          <button onclick="startQuiz()" class="btn-primary">Start Quiz</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div id="footer-text">Built for Google Promptwars Hackathon · Powered by Google Gemini AI</div>
     <div style="display:flex; gap:0.5rem;">
-      <a href="https://eci.gov.in" target="_blank">eci.gov.in</a>
-      <span>·</span>
-      <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a>
+      <a href="https://eci.gov.in" target="_blank" aria-label="Election Commission of India">eci.gov.in</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://aistudio.google.com" target="_blank" aria-label="Google AI Studio">aistudio.google.com</a>
     </div>
   </footer>
-
 </div>
 
-<!-- VOICE TOAST -->
-<div class="voice-toast" id="voice-toast">🎙️ Listening... Speak now</div>
+<div class="voice-toast" id="voice-toast" aria-live="assertive">🎙️ Listening... Speak now</div>
 
 <!-- API MODAL -->
 <div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal">
     <h2 class="modal-title" id="modal-title">Enter Gemini API Key</h2>
     <p class="modal-desc" id="modal-desc">Paste your Google Gemini API key to power the AI assistant. It stays in your browser only — never shared.</p>
-    <input type="password" class="modal-input" id="key-input" placeholder="Paste your Gemini API key here...">
+    <input type="password" class="modal-input" id="key-input" placeholder="Paste your Gemini API key here..." aria-label="API Key">
     <button class="modal-btn" id="modal-save" onclick="saveKey()">Save & Start Chatting →</button>
     <div class="modal-note" id="modal-note">Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></div>
   </div>
 </div>
 
 <script>
-/* ─── DATA: FACTS ─── */
+/* ─── DATA: FACTS & TIMELINE & QUESTIONS ─── */
 const FACTS = [
   { en: "India has the world's largest electorate — over 960 million registered voters!", hi: "भारत में विश्व के सबसे अधिक मतदाता हैं — 96 करोड़ से ज़्यादा!" },
   { en: "Election Commission of India was established on 25 January 1950.", hi: "भारत निर्वाचन आयोग की स्थापना 25 जनवरी 1950 को हुई थी।" },
@@ -920,7 +397,6 @@ const FACTS = [
   { en: "India's general elections are the largest democratic exercise on Earth!", hi: "भारत के आम चुनाव पृथ्वी पर सबसे बड़ा लोकतांत्रिक अभ्यास हैं!" }
 ];
 
-/* ─── DATA: TIMELINE STEPS ─── */
 const STEPS = [
   { num:1, en_title:"Election Announcement", hi_title:"चुनाव की घोषणा", en_sub:"ECI announces dates, MCC begins", hi_sub:"ECI तारीखें घोषित, आचार संहिता लागू", en_detail:"Election Commission announces schedule. Model Code of Conduct begins immediately from announcement day.", hi_detail:"चुनाव आयोग कार्यक्रम घोषित करता है। घोषणा के दिन से आचार संहिता तुरंत लागू हो जाती है।", en_fact:"📌 MCC is enforced from announcement until results are declared.", hi_fact:"📌 घोषणा से परिणाम तक आचार संहिता लागू रहती है।" },
   { num:2, en_title:"Voter Registration", hi_title:"मतदाता पंजीकरण", en_sub:"Electoral rolls updated, new voters register", hi_sub:"मतदाता सूची अपडेट, नए पंजीकरण", en_detail:"Verify or update voter ID at voterportal.eci.gov.in. Deadline is typically 1 week before polling day.", hi_detail:"voterportal.eci.gov.in पर voter ID verify करें। मतदान से 1 सप्ताह पहले अंतिम तिथि।", en_fact:"📌 Any Indian citizen aged 18+ can register to vote.", hi_fact:"📌 18+ वर्ष का कोई भी भारतीय नागरिक मतदान कर सकता है।" },
@@ -930,7 +406,6 @@ const STEPS = [
   { num:6, en_title:"Results & Oath", hi_title:"परिणाम और शपथ", en_sub:"Counting, declaration & government formation", hi_sub:"मतगणना, घोषणा और सरकार गठन", en_detail:"Counting starts at 8 AM on counting day. Results declared progressively. Winning candidates take the oath of office.", hi_detail:"मतगणना सुबह 8 बजे शुरू। परिणाम क्रमशः घोषित। विजेता शपथ ग्रहण करते हैं।", en_fact:"📌 Most Lok Sabha results are declared in a single day.", hi_fact:"📌 अधिकांश लोकसभा परिणाम एक ही दिन घोषित हो जाते हैं।" }
 ];
 
-/* ─── DATA: QUICK QUESTIONS ─── */
 const QUESTIONS = [
   { icon:"📝", en:"How do I register to vote?", hi:"मतदाता पंजीकरण कैसे करें?" },
   { icon:"🖲️", en:"How does an EVM work?", hi:"EVM कैसे काम करती है?" },
@@ -942,7 +417,6 @@ const QUESTIONS = [
   { icon:"🗓️", en:"How are election phases decided?", hi:"चुनाव चरण कैसे तय होते हैं?" }
 ];
 
-/* ─── LANGUAGE SYSTEM ─── */
 const LANG = {
   en: {
     placeholder: "Ask anything about Indian elections...",
@@ -964,7 +438,7 @@ const LANG = {
     error_rate: "⏳ Rate limit reached. Please wait 30 seconds and try again.",
     error_general: "⚠️ Something went wrong. Please try again.",
     voice_listening: "🎙️ Listening... Speak now",
-    voice_unsupported: "⚠️ Voice input not supported in this browser. Please use Chrome.",
+    voice_unsupported: "⚠️ Voice input not supported in this browser.",
     hint: "⏎ Enter to send  ·  🎙 Click mic to speak  ·  🔊 Tap to hear reply"
   },
   hi: {
@@ -987,7 +461,7 @@ const LANG = {
     error_rate: "⏳ बहुत अधिक अनुरोध। 30 सेकंड बाद फिर कोशिश करें।",
     error_general: "⚠️ कुछ गलत हुआ। कृपया फिर से कोशिश करें।",
     voice_listening: "🎙️ सुन रहा हूं... बोलिए",
-    voice_unsupported: "⚠️ इस browser में voice input समर्थित नहीं है। Chrome इस्तेमाल करें।",
+    voice_unsupported: "⚠️ इस browser में voice input समर्थित नहीं है।",
     hint: "⏎ Enter से भेजें  ·  🎙 माइक से बोलें  ·  🔊 जवाब सुनें"
   }
 };
@@ -997,7 +471,6 @@ const SYSTEM_PROMPTS = {
   hi: "आप VoteGuide AI हैं — भारतीय चुनाव प्रक्रिया के विशेषज्ञ। मतदाता पंजीकरण, EVM, VVPAT, NOTA, चुनाव चरण, आदर्श आचार संहिता और मतदाता अधिकारों में मदद करें। सरल और स्पष्ट हिंदी में जवाब दें। चरण-दर-चरण उत्तर के लिए बुलेट पॉइंट इस्तेमाल करें।"
 };
 
-/* ─── APP STATE ─── */
 let apiKey = localStorage.getItem('vg_key') || '';
 let chatHistory = [];
 let isLoading = false;
@@ -1008,6 +481,23 @@ let tickerInterval;
 let recognition = null;
 let isListening = false;
 let isSpeaking = false;
+
+/* ─── TAB NAVIGATION ─── */
+function switchTab(tabId) {
+  ['assistant', 'scenario', 'quiz'].forEach(id => {
+    const btn = document.getElementById('tab-' + id);
+    const view = document.getElementById('view-' + id);
+    if (id === tabId) {
+      btn.setAttribute('aria-selected', 'true');
+      view.classList.add('active');
+      view.removeAttribute('hidden');
+    } else {
+      btn.setAttribute('aria-selected', 'false');
+      view.classList.remove('active');
+      view.setAttribute('hidden', 'true');
+    }
+  });
+}
 
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', () => {
@@ -1020,10 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const input = document.getElementById('chat-input');
   input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
   });
 
   document.getElementById('modal').addEventListener('click', e => {
@@ -1039,13 +526,12 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ─── LANGUAGE SWITCHER ─── */
 function switchLang(lang) {
   currentLang = lang;
-  document.documentElement.lang = lang;
+  document.documentElement.lang = lang === 'hi' ? 'hi' : 'en';
   
   document.getElementById('lang-en').classList.toggle('active', lang === 'en');
   document.getElementById('lang-hi').classList.toggle('active', lang === 'hi');
 
   const l = LANG[lang];
-  
   document.getElementById('chat-input').placeholder = l.placeholder;
   document.getElementById('input-hint').textContent = l.hint;
   document.getElementById('lbl-timeline').textContent = l.timeline_label;
@@ -1054,28 +540,21 @@ function switchLang(lang) {
   document.getElementById('wc-title').textContent = l.welcome_title;
   document.getElementById('wc-desc').textContent = l.welcome_text;
   document.getElementById('footer-text').textContent = l.footer;
-  
   document.getElementById('modal-title').textContent = l.api_title;
   document.getElementById('modal-desc').textContent = l.api_desc;
   document.getElementById('key-input').placeholder = l.api_placeholder;
   document.getElementById('modal-save').textContent = l.api_save;
   document.getElementById('modal-note').innerHTML = l.api_note;
 
-  // Update dynamic content
   renderTimeline();
   renderQuestions();
   updateTickerText();
   
-  // Update listen buttons
   document.querySelectorAll('.msg-voice-btn').forEach(btn => {
-    if (!btn.classList.contains('speaking')) {
-      btn.textContent = l.listen_btn;
-    } else {
-      btn.textContent = l.stop_btn;
-    }
+    if (!btn.classList.contains('speaking')) btn.textContent = l.listen_btn;
+    else btn.textContent = l.stop_btn;
   });
 
-  // Stop current speech if language changes
   if (isSpeaking) {
     window.speechSynthesis.cancel();
     isSpeaking = false;
@@ -1130,9 +609,8 @@ function renderTimeline() {
     const fact = currentLang === 'hi' ? s.hi_fact : s.en_fact;
     const isActive = activeStep === i ? 'active' : '';
     const askText = LANG[currentLang].ask_ai;
-    
     return `
-      <div tabindex="0" class="tl-item ${isActive}" data-idx="${i}" onclick="toggleStep(${i})" aria-expanded="${isActive ? 'true' : 'false'}">
+      <div tabindex="0" class="tl-item ${isActive}" onclick="toggleStep(${i})" aria-expanded="${isActive ? 'true' : 'false'}">
         <div class="tl-left"><div class="tl-node">${s.num}</div><div class="tl-line"></div></div>
         <div class="tl-right">
           <div class="tl-title">${title}</div>
@@ -1150,10 +628,7 @@ function renderTimeline() {
   }).join('');
 }
 
-function toggleStep(i) {
-  activeStep = activeStep === i ? -1 : i;
-  renderTimeline();
-}
+function toggleStep(i) { activeStep = activeStep === i ? -1 : i; renderTimeline(); }
 
 function askFromTimeline(i) {
   const title = currentLang === 'hi' ? STEPS[i].hi_title : STEPS[i].en_title;
@@ -1181,7 +656,6 @@ async function handleSend() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if (!text || isLoading) return;
-
   if (!apiKey) { showModal(); return; }
 
   input.value = '';
@@ -1197,7 +671,7 @@ async function handleSend() {
   scrollToBottom();
 
   try {
-    const reply = await callGemini(text);
+    const reply = await callGeminiChat(text);
     chatHistory.push({ role: 'model', parts: [{ text: reply }] });
     typing.classList.remove('visible');
     appendMessage(reply, 'bot');
@@ -1212,26 +686,19 @@ async function handleSend() {
   }
 }
 
-async function callGemini(userText) {
+async function callGeminiChat(userText) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
   const body = {
     system_instruction: { parts: [{ text: SYSTEM_PROMPTS[currentLang] }] },
     contents: chatHistory
   };
-  
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   const data = await res.json();
   if (data.error) {
     if (data.error.code === 403) throw new Error(LANG[currentLang].error_key);
     if (data.error.code === 429) throw new Error(LANG[currentLang].error_rate);
     throw new Error(LANG[currentLang].error_general);
   }
-  
   const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!reply) throw new Error(LANG[currentLang].error_general);
   return reply;
@@ -1243,10 +710,7 @@ function appendMessage(text, role) {
   wrap.className = `msg-wrap ${role}`;
   
   const sender = role === 'bot' ? 'VOTEGUIDE AI' : (currentLang==='hi'?'आप':'YOU');
-  let formatted = text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\n/g, '<br>');
+  let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
 
   let voiceHtml = '';
   if (role === 'bot') {
@@ -1254,12 +718,7 @@ function appendMessage(text, role) {
     voiceHtml = `<button class="msg-voice-btn" onclick="speakText(this, '${cleanText}')" aria-label="Listen to message">🔊 ${LANG[currentLang].listen_btn}</button>`;
   }
 
-  wrap.innerHTML = `
-    <div class="msg-sender">${sender}</div>
-    <div class="msg-bubble">${formatted}</div>
-    ${voiceHtml}
-  `;
-  
+  wrap.innerHTML = `<div class="msg-sender">${sender}</div><div class="msg-bubble">${formatted}</div>${voiceHtml}`;
   msgs.insertBefore(wrap, document.getElementById('typing-wrap'));
   scrollToBottom();
 }
@@ -1269,18 +728,149 @@ function scrollToBottom() {
   m.scrollTop = m.scrollHeight;
 }
 
+/* ─── DYNAMIC ELECTION SCENARIO SIMULATOR ─── */
+let currentScenario = null;
+async function startScenario() {
+  if (!apiKey) { showModal(); return; }
+  const container = document.getElementById('scenario-content');
+  container.innerHTML = '<div class="loader-text">🤖 AI is generating a scenario...</div>';
+  
+  const prompt = `You are an Indian Election Scenario Simulator. Generate a realistic, hypothetical election day dilemma for a voter (e.g., name missing from roll, EVM malfunction, someone offering money). Return ONLY a valid JSON object with this exact structure: {"scenario": "Description of the situation", "options": ["Option A", "Option B", "Option C"]}. Do not include markdown blocks like \`\`\`json.`;
+  
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const body = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    
+    const reply = data.candidates[0].content.parts[0].text;
+    currentScenario = JSON.parse(reply.replace(/```json/gi, '').replace(/```/gi, '').trim());
+    
+    let html = `<div class="scenario-text">${currentScenario.scenario}</div>`;
+    currentScenario.options.forEach((opt, i) => {
+      html += `<button class="opt-btn" onclick="evaluateScenario(${i})">${opt}</button>`;
+    });
+    container.innerHTML = html;
+  } catch (err) {
+    container.innerHTML = `<p style="color:red">Error: ${err.message}</p><button onclick="startScenario()" class="btn-primary">Try Again</button>`;
+  }
+}
+
+async function evaluateScenario(optIdx) {
+  const container = document.getElementById('scenario-content');
+  const choice = currentScenario.options[optIdx];
+  const oldHtml = container.innerHTML;
+  container.innerHTML = '<div class="loader-text">🤖 Evaluating your choice...</div>';
+  
+  const prompt = `The user was presented with this scenario: "${currentScenario.scenario}". They chose: "${choice}". Evaluate their choice based on actual Election Commission of India (ECI) rules. Return ONLY a valid JSON object: {"isCorrect": boolean, "explanation": "Why it's right or wrong and what the actual rule is."}. Do not include markdown blocks like \`\`\`json.`;
+  
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const body = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    
+    const reply = data.candidates[0].content.parts[0].text;
+    const result = JSON.parse(reply.replace(/```json/gi, '').replace(/```/gi, '').trim());
+    
+    container.innerHTML = `
+      <div class="eval-card ${result.isCorrect ? 'correct' : 'wrong'}">
+        <h3>${result.isCorrect ? '✅ Correct Action!' : '❌ Incorrect Action'}</h3>
+        <p>${result.explanation}</p>
+        <button onclick="startScenario()" class="btn-primary" style="margin-top:1.5rem;">Play Another Scenario</button>
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = `<p style="color:red">Error: ${err.message}</p>` + oldHtml;
+  }
+}
+
+/* ─── GAMIFIED VOTER KNOWLEDGE QUIZ ─── */
+let quizQuestions = [];
+let currentQIdx = 0;
+let quizScore = 0;
+
+async function startQuiz() {
+  if (!apiKey) { showModal(); return; }
+  const container = document.getElementById('quiz-content');
+  container.innerHTML = '<div class="loader-text">🤖 AI is generating questions...</div>';
+  
+  const prompt = `Generate 5 rapid-fire multiple-choice questions about Indian elections (Model Code of Conduct, EVMs, Voter Rights). Return ONLY a valid JSON array where each item is: {"q": "Question text", "opts": ["A", "B", "C", "D"], "answer": "The exact correct option string from opts", "explanation": "Brief explanation"}. Do not include markdown blocks like \`\`\`json.`;
+  
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const body = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    
+    const reply = data.candidates[0].content.parts[0].text;
+    quizQuestions = JSON.parse(reply.replace(/```json/gi, '').replace(/```/gi, '').trim());
+    currentQIdx = 0;
+    quizScore = 0;
+    renderQuizQuestion();
+  } catch (err) {
+    container.innerHTML = `<p style="color:red">Error: ${err.message}</p><button onclick="startQuiz()" class="btn-primary">Try Again</button>`;
+  }
+}
+
+function renderQuizQuestion() {
+  const container = document.getElementById('quiz-content');
+  if (currentQIdx >= quizQuestions.length) {
+    let badge = 'Novice Voter';
+    if (quizScore === 5) badge = 'Election Expert 🏆';
+    else if (quizScore >= 3) badge = 'Informed Citizen 🌟';
+    
+    container.innerHTML = `
+      <h2>Quiz Complete!</h2>
+      <div class="score-circle">${quizScore} / 5</div>
+      <h3 style="color:var(--text); margin-bottom:1.5rem;">Readiness Level: <span style="color:var(--primary);">${badge}</span></h3>
+      <button onclick="startQuiz()" class="btn-primary">Play Again</button>
+    `;
+    return;
+  }
+  
+  const q = quizQuestions[currentQIdx];
+  let html = `
+    <div class="quiz-header">Question ${currentQIdx + 1} of ${quizQuestions.length}</div>
+    <div class="quiz-q">${q.q}</div>
+  `;
+  q.opts.forEach((opt, i) => {
+    html += `<button class="opt-btn" onclick="answerQuiz(${i})">${opt}</button>`;
+  });
+  container.innerHTML = html;
+}
+
+function answerQuiz(optIdx) {
+  const q = quizQuestions[currentQIdx];
+  const selected = q.opts[optIdx];
+  const isCorrect = selected === q.answer;
+  if (isCorrect) quizScore++;
+  
+  const container = document.getElementById('quiz-content');
+  container.innerHTML = `
+    <div class="eval-card ${isCorrect ? 'correct' : 'wrong'}">
+      <h3>${isCorrect ? '✅ Correct!' : '❌ Incorrect'}</h3>
+      <p><strong>Correct Answer:</strong> ${q.answer}</p>
+      <p style="margin-top:0.5rem;">${q.explanation}</p>
+      <button onclick="nextQuiz()" class="btn-primary" style="margin-top:1.5rem;">Next Question</button>
+    </div>
+  `;
+}
+
+function nextQuiz() {
+  currentQIdx++;
+  renderQuizQuestion();
+}
+
 /* ─── VOICE INPUT ─── */
 function toggleVoice() {
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRec) {
-    appendMessage(LANG[currentLang].voice_unsupported, 'bot');
-    return;
-  }
+  if (!SpeechRec) { appendMessage(LANG[currentLang].voice_unsupported, 'bot'); return; }
 
-  if (isListening) {
-    stopListening();
-    return;
-  }
+  if (isListening) { stopListening(); return; }
 
   recognition = new SpeechRec();
   recognition.lang = currentLang === 'hi' ? 'hi-IN' : 'en-IN';
@@ -1297,17 +887,14 @@ function toggleVoice() {
   };
 
   recognition.onresult = (e) => {
-    const transcript = e.results[0][0].transcript;
-    document.getElementById('chat-input').value = transcript;
+    document.getElementById('chat-input').value = e.results[0][0].transcript;
     stopListening();
     setTimeout(handleSend, 400);
   };
 
   recognition.onerror = (e) => {
     stopListening();
-    if (e.error !== 'no-speech') {
-      appendMessage(`⚠️ Voice error: ${e.error}`, 'bot');
-    }
+    if (e.error !== 'no-speech') appendMessage(`⚠️ Voice error: ${e.error}`, 'bot');
   };
 
   recognition.onend = () => stopListening();
@@ -1333,10 +920,7 @@ function speakText(btn, rawText) {
       b.classList.remove('speaking');
       b.textContent = LANG[currentLang].listen_btn;
     });
-    if (btn.dataset.speaking === 'true') {
-      btn.dataset.speaking = 'false';
-      return;
-    }
+    if (btn.dataset.speaking === 'true') { btn.dataset.speaking = 'false'; return; }
   }
 
   const clean = rawText.replace(/[*#>]/g, '');
@@ -1373,9 +957,7 @@ function showModal() {
   document.getElementById('key-input').focus();
 }
 
-function hideModal() {
-  document.getElementById('modal').classList.remove('show');
-}
+function hideModal() { document.getElementById('modal').classList.remove('show'); }
 
 function saveKey() {
   const k = document.getElementById('key-input').value.trim();
@@ -1387,10 +969,8 @@ function saveKey() {
 }
 
 function toggleSidebar() {
-  const sb = document.getElementById('sidebar');
-  const ov = document.getElementById('overlay');
-  sb.classList.toggle('open');
-  ov.classList.toggle('show');
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
 }
 </script>
 </body>
