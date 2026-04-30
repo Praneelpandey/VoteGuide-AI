@@ -629,7 +629,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   // 9. API ABSTRACTION (Robust Error Handling)
   async function fetchGemini(promptSystem, messagesArray) {
     if (!State.apiKey) { showModal(); throw new Error("API Key required."); }
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${State.apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${State.apiKey}`;
     const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system_instruction: { parts: [{ text: promptSystem }] }, contents: messagesArray }) });
     const data = await res.json();
     if (data.error) {
@@ -655,7 +655,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     if (!text || State.isLoading) return;
     if (!State.apiKey) { showModal(); return; }
 
-    input.value = ''; State.isLoading = true; el('send-btn').disabled = true;
+    input.value = ''; State.isLoading = true; el('send-btn').disabled = true; input.disabled = true;
     appendMessage(text, 'user'); State.chatHistory.push({ role: 'user', parts: [{ text }] });
     el('typing-wrap').classList.add('visible'); scrollToBottom();
 
@@ -665,7 +665,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
       el('typing-wrap').classList.remove('visible'); appendMessage(reply, 'bot');
     } catch (err) {
       el('typing-wrap').classList.remove('visible'); appendMessage(`⚠️ ${err.message}`, 'bot', true); State.chatHistory.pop();
-    } finally { State.isLoading = false; el('send-btn').disabled = false; input.focus(); }
+    } finally { State.isLoading = false; el('send-btn').disabled = false; input.disabled = false; input.focus(); }
   }
 
   function appendMessage(text, role, isError = false) {
