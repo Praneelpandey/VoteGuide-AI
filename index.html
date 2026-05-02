@@ -1287,6 +1287,11 @@
         .kit-item.disabled { cursor: not-allowed; background: var(--surface2); }
         .disabled-check { border: none; background: transparent; font-size: 1.2rem; }
         .badge-red { background: var(--error); color: white; font-size: 0.65rem; font-weight: 800; padding: 0.3rem 0.6rem; border-radius: 50px; white-space: nowrap; }
+        .chip-toast { position: fixed; bottom: 6rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface); border: 2px solid var(--primary); border-radius: 50px; padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 700; color: var(--primary-dark); opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 200; box-shadow: 0 4px 20px var(--primary-glow); }
+        .chip-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .ai-results-box .ai-q-item { padding: 0.75rem 0; border-bottom: 1px dashed var(--border); line-height: 1.6; color: var(--text); font-size: 0.95rem; }
+        .ai-results-box .ai-q-item:last-child { border-bottom: none; }
+        .ai-results-box .ai-q-header { font-weight: 800; color: var(--primary-dark); font-size: 1rem; margin-bottom: 0.75rem; }
 
         
         /* Hero Section & Animations */
@@ -1501,14 +1506,14 @@
                         <h3 class="civic-title">What matters to you?</h3>
                         <p class="civic-desc">Select up to 3 topics to generate smart questions for your local candidates.</p>
                         <div class="topic-grid" id="topic-grid">
-                            <button class="topic-chip" data-topic="Jobs & Economy" aria-pressed="false">💼 Jobs & Economy</button>
-                            <button class="topic-chip" data-topic="Healthcare" aria-pressed="false">🏥 Healthcare</button>
-                            <button class="topic-chip" data-topic="Education" aria-pressed="false">📚 Education</button>
-                            <button class="topic-chip" data-topic="Environment" aria-pressed="false">🌍 Environment</button>
-                            <button class="topic-chip" data-topic="Infrastructure" aria-pressed="false">🛣️ Infrastructure</button>
-                            <button class="topic-chip" data-topic="Women's Safety" aria-pressed="false">👩‍⚖️ Women's Safety</button>
+                            <button class="topic-chip" role="button" tabindex="0" data-topic="Jobs & Economy" aria-pressed="false" aria-label="Select topic: Jobs and Economy">💼 Jobs & Economy</button>
+                            <button class="topic-chip" role="button" tabindex="0" data-topic="Healthcare" aria-pressed="false" aria-label="Select topic: Healthcare">🏥 Healthcare</button>
+                            <button class="topic-chip" role="button" tabindex="0" data-topic="Education" aria-pressed="false" aria-label="Select topic: Education">📚 Education</button>
+                            <button class="topic-chip" role="button" tabindex="0" data-topic="Environment" aria-pressed="false" aria-label="Select topic: Environment">🌍 Environment</button>
+                            <button class="topic-chip" role="button" tabindex="0" data-topic="Infrastructure" aria-pressed="false" aria-label="Select topic: Infrastructure">🛣️ Infrastructure</button>
+                            <button class="topic-chip" role="button" tabindex="0" data-topic="Women's Safety" aria-pressed="false" aria-label="Select topic: Women Safety">👩‍⚖️ Women's Safety</button>
                         </div>
-                        <button id="generate-q-btn" class="btn-primary" style="margin-top: 1.5rem;" aria-label="Generate Questions for Candidates">Generate Questions</button>
+                        <button id="generate-q-btn" class="btn-primary" style="margin-top: 1.5rem;" aria-label="Generate a priority guide based on your selected voter issues">Generate Guide</button>
                         <div id="ai-questions-box" class="ai-results-box" aria-live="polite"></div>
                     </div>
 
@@ -1537,16 +1542,16 @@
                         <h3 class="civic-title">Polling Day Checklist</h3>
                         <p class="civic-desc">Tap items to check them off before heading to the booth.</p>
                         <div class="kit-list">
-                            <button class="kit-item" aria-pressed="false">
-                                <span class="kit-checkbox"></span>
+                            <button class="kit-item" role="button" tabindex="0" aria-pressed="false" aria-label="Checklist item: Valid Photo ID Card">
+                                <span class="kit-checkbox" aria-hidden="true"></span>
                                 <span class="kit-label">Valid Photo ID Card (EPIC, Aadhaar, etc.)</span>
                             </button>
-                            <button class="kit-item" aria-pressed="false">
-                                <span class="kit-checkbox"></span>
+                            <button class="kit-item" role="button" tabindex="0" aria-pressed="false" aria-label="Checklist item: Voter Information Slip">
+                                <span class="kit-checkbox" aria-hidden="true"></span>
                                 <span class="kit-label">Voter Information Slip</span>
                             </button>
-                            <button class="kit-item" aria-pressed="false">
-                                <span class="kit-checkbox"></span>
+                            <button class="kit-item" role="button" tabindex="0" aria-pressed="false" aria-label="Checklist item: Water Bottle">
+                                <span class="kit-checkbox" aria-hidden="true"></span>
                                 <span class="kit-label">Water Bottle (Transparent)</span>
                             </button>
                             <div class="kit-item disabled" aria-disabled="true">
@@ -1575,6 +1580,7 @@
 
 <!-- FLOATING TOASTS & MODALS -->
 <div class="voice-toast" id="voice-toast" aria-live="assertive">🎙️ Listening... Speak now</div>
+<div class="chip-toast" id="chip-toast" aria-live="polite">⚠️ Maximum 3 topics allowed</div>
 
 <div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
@@ -1728,8 +1734,8 @@ function registerEvents() {
         on('click', '.quiz-opt-btn', (e, target) => answerQuiz(parseInt(target.dataset.idx)));
         
         // Civic Action Center Events
-        on('click', '.topic-chip', (e, target) => toggleTopic(target));
-        on('click', '#generate-q-btn', generateManifestoQuestions);
+        on('click', '.topic-chip', (e, target) => handleManifestoSelection(target));
+        on('click', '#generate-q-btn', handleGenerateGuide);
         on('click', '.kit-item:not(.disabled)', (e, target) => {
             target.classList.toggle('checked');
             target.setAttribute('aria-pressed', target.classList.contains('checked'));
@@ -2133,6 +2139,89 @@ function answerQuiz(optIdx) {
     function nextQuiz() { 
         AppState.quizIdx++; 
         renderQuizQuestion(); 
+    }
+
+    // ── Civic Action Center: Manifesto Selection ──
+    function handleManifestoSelection(btn) {
+        const topic = btn.dataset.topic;
+        const idx = AppState.selectedTopics.indexOf(topic);
+
+        if (idx > -1) {
+            AppState.selectedTopics.splice(idx, 1);
+            btn.classList.remove('selected');
+            btn.setAttribute('aria-pressed', 'false');
+            return;
+        }
+
+        if (AppState.selectedTopics.length >= 3) {
+            const toast = el('chip-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+            return;
+        }
+
+        AppState.selectedTopics.push(topic);
+        btn.classList.add('selected');
+        btn.setAttribute('aria-pressed', 'true');
+    }
+
+    // ── Civic Action Center: XSS-Safe AI Guide Generator ──
+    async function handleGenerateGuide() {
+        if (AppState.selectedTopics.length === 0) {
+            const toast = el('chip-toast');
+            toast.textContent = AppState.lang === 'hi' ? '⚠️ कम से कम 1 विषय चुनें' : '⚠️ Please select at least 1 topic';
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); toast.textContent = '⚠️ Maximum 3 topics allowed'; }, 2500);
+            return;
+        }
+        if (!AppState.apiKey) { showModal(); return; }
+
+        const btn = el('generate-q-btn');
+        const box = el('ai-questions-box');
+
+        btn.disabled = true;
+        btn.textContent = AppState.lang === 'hi' ? 'जनरेट हो रहा है...' : 'Generating...';
+        box.classList.remove('show');
+        box.textContent = '';
+
+        const topicsStr = AppState.selectedTopics.join(', ');
+        const lang = AppState.lang === 'hi' ? 'Hindi' : 'English';
+        const prompt = `As an expert Indian election advisor, generate exactly 3 smart, specific questions a voter should ask their local political candidate about: ${topicsStr}. Number them 1, 2, 3. Be concise. Language: ${lang}.`;
+
+        try {
+            const reply = await fetchGemini(
+                'You are a helpful Indian election advisor. Generate concise, numbered questions.',
+                [{ role: 'user', parts: [{ text: prompt }] }]
+            );
+
+            // XSS-SAFE: Use textContent, never innerHTML for AI output
+            box.textContent = '';
+            const header = document.createElement('div');
+            header.className = 'ai-q-header';
+            header.textContent = AppState.lang === 'hi' ? '📋 आपके उम्मीदवार से पूछने के लिए प्रश्न:' : '📋 Questions to ask your candidate:';
+            box.appendChild(header);
+
+            const lines = reply.split('\n').filter(l => l.trim());
+            lines.forEach(line => {
+                const item = document.createElement('div');
+                item.className = 'ai-q-item';
+                item.textContent = line;
+                box.appendChild(item);
+            });
+
+            box.classList.add('show');
+        } catch (err) {
+            box.textContent = '';
+            const errEl = document.createElement('div');
+            errEl.className = 'ai-q-item';
+            errEl.style.color = 'var(--error)';
+            errEl.textContent = `⚠️ ${err.message || 'Something went wrong. Please try again.'}`;
+            box.appendChild(errEl);
+            box.classList.add('show');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = AppState.lang === 'hi' ? 'गाइड जनरेट करें' : 'Generate Guide';
+        }
     }
 
 function toggleVoice() {
