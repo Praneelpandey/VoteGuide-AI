@@ -177,7 +177,7 @@
         }
 
         .view-container { display: none; }
-        .view-container.active { display: flex; flex-direction: column; flex: 1; min-height: 0; animation: fadeInView 0.3s ease forwards; }
+        .view-container.active { display: flex; flex-direction: column; flex: 1; min-height: 0; animation: smoothFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         @keyframes fadeInView {
             from { opacity: 0; transform: translateY(10px); }
@@ -310,7 +310,7 @@
 
         .btn-primary:hover {
             background: var(--primary-light);
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.02);
         }
 
         /* Navigation Tabs */
@@ -955,7 +955,9 @@
 
         /* Quiz & Simulator Cards */
         .card-container {
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: var(--radius-lg);
             padding: 2.5rem;
             box-shadow: var(--shadow-lg);
@@ -1001,7 +1003,7 @@
             transition: background-color 0.2s, border-color 0.2s, color 0.2s;
         }
 
-        .opt-btn:hover, .opt-btn:focus-visible {
+        .opt-btn:hover, .opt-btn:focus-visible { transform: scale(1.02); 
             border-color: var(--primary);
             background: var(--primary-pale);
             color: var(--primary-dark);
@@ -1263,7 +1265,7 @@
         .civic-desc { font-size: 0.95rem; color: var(--muted); margin-bottom: 1.5rem; }
         .topic-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
         .topic-chip { background: var(--surface2); border: 1.5px solid var(--border); padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; color: var(--text2); cursor: pointer; font-family: var(--font); transition: all 0.2s ease; }
-        .topic-chip:hover { border-color: var(--primary); }
+        .topic-chip:hover { border-color: var(--primary); transform: scale(1.02); }
         .topic-chip.selected { background: var(--primary); color: var(--surface); border-color: var(--primary-dark); box-shadow: 0 4px 12px var(--primary-glow); }
         .ai-results-box { display: none; margin-top: 1.5rem; padding: 1.5rem; background: var(--primary-pale); border: 1px solid var(--primary); border-radius: var(--radius); color: var(--text); font-size: 0.95rem; line-height: 1.6; }
         .ai-results-box.show { display: block; animation: fadeInView 0.3s ease; }
@@ -1285,6 +1287,17 @@
         .kit-item.disabled { cursor: not-allowed; background: var(--surface2); }
         .disabled-check { border: none; background: transparent; font-size: 1.2rem; }
         .badge-red { background: var(--error); color: white; font-size: 0.65rem; font-weight: 800; padding: 0.3rem 0.6rem; border-radius: 50px; white-space: nowrap; }
+
+        
+        /* Hero Section & Animations */
+        @keyframes smoothFadeUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        .hero-section { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; animation: smoothFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .hero-headline { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.1; background: linear-gradient(135deg, var(--primary-dark), var(--primary-light), #138808); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientMove 6s ease infinite; margin-bottom: 0.5rem; }
+        .hero-subline { font-size: 1.1rem; color: var(--text2); max-width: 600px; margin-bottom: 1rem; }
+        .hero-start-btn { font-size: 1.15rem; padding: 1rem 2.5rem; border-radius: 50px; box-shadow: 0 10px 25px var(--primary-glow); transition: all 0.2s ease; margin-top: 1rem; border: none; background: var(--primary); color: white; font-weight: 700; cursor: pointer;}
+        .hero-start-btn:hover { background: var(--primary-light); box-shadow: 0 15px 35px rgba(232, 80, 10, 0.3); transform: translateY(-2px) scale(1.02); }
+        .hero-image-wrapper { margin: 1.5rem 0; width: 100%; max-width: 700px; }
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         /* 5. MEDIA QUERIES */
         @media (max-width: 768px) {
@@ -1341,7 +1354,8 @@
 
     <!-- NAVIGATION TABS -->
     <nav class="tabs-nav" role="tablist" aria-label="Main Module Navigation">
-        <button role="tab" aria-selected="true" aria-controls="view-chat" class="tab-btn" data-tab="chat" tabindex="0">AI Assistant</button>
+        <button role="tab" aria-selected="true" aria-controls="view-home" class="tab-btn" data-tab="home" tabindex="0">Home</button>
+        <button role="tab" aria-selected="false" aria-controls="view-chat" class="tab-btn" data-tab="chat" tabindex="-1">AI Assistant</button>
         <button role="tab" aria-selected="false" aria-controls="view-simulator" class="tab-btn" data-tab="simulator" tabindex="-1">Scenario Simulator</button>
         <button role="tab" aria-selected="false" aria-controls="view-quiz" class="tab-btn" data-tab="quiz" tabindex="-1">Voter Quiz</button>
         <button role="tab" aria-selected="false" aria-controls="view-civic" class="tab-btn" data-tab="civic" tabindex="-1">Civic Action Center</button>
@@ -1374,8 +1388,24 @@
         <!-- VIEWS WRAPPER -->
         <div class="views-wrapper">
             
+            <!-- VIEW 0: HOME -->
+            <section id="view-home" class="view-container active" role="tabpanel" aria-labelledby="view-home">
+                <div class="centered-content" style="align-items: center; justify-content: center; text-align: center; max-width: 900px; margin: 0 auto; width: 100%;">
+                    <div class="hero-section">
+                        <h1 class="hero-headline">Democracy, Powered by AI.</h1>
+                        <p class="hero-subline">Your intelligent guide to understanding Indian elections, EVMs, and your rights.</p>
+                        
+                        <div class="hero-image-wrapper">
+                            <img src="hero-image.webp" alt="AI Election Guide" loading="eager" decoding="async" style="max-width: 100%; border-radius: 24px; box-shadow: 0 20px 40px rgba(232, 80, 10, 0.2);">
+                        </div>
+                        
+                        <button class="btn-primary hero-start-btn" aria-label="Start your journey to the AI Assistant" onclick="document.querySelector('[data-tab=\'chat\']').click()">Start Your Journey →</button>
+                    </div>
+                </div>
+            </section>
+
             <!-- VIEW 1: AI ASSISTANT -->
-            <section id="view-chat" class="view-container active" role="tabpanel" aria-labelledby="view-chat">
+            <section id="view-chat" class="view-container" role="tabpanel" aria-labelledby="view-chat" aria-hidden="true">
                 <div class="chat-sub-header">
                     <div class="chat-status">
                         <div class="status-dot"></div>
@@ -1567,7 +1597,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const AppState = {
         lang: 'en',
-        tab: 'chat',
+        tab: 'home',
         apiKey: localStorage.getItem('vg_key') || '',
         activeStep: -1,
         tickerIdx: 0,
@@ -1715,7 +1745,7 @@ function registerEvents() {
 
 function switchTab(tabId) {
         AppState.tab = tabId;
-        ['chat', 'simulator', 'quiz', 'civic'].forEach(id => {
+        ['home', 'chat', 'simulator', 'quiz', 'civic'].forEach(id => {
             const btn = q(`.tab-btn[data-tab="${id}"]`);
             const view = el('view-' + id);
             
