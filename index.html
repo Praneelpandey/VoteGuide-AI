@@ -1255,8 +1255,40 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        
+        /* Civic Action Center */
+        .civic-header { font-size: 2rem; font-weight: 800; color: var(--primary-dark); text-align: center; margin-bottom: 2rem; }
+        .civic-card { max-width: 100%; text-align: left; padding: 2rem; margin-bottom: 2rem; }
+        .civic-title { font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
+        .civic-desc { font-size: 0.95rem; color: var(--muted); margin-bottom: 1.5rem; }
+        .topic-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .topic-chip { background: var(--surface2); border: 1.5px solid var(--border); padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; color: var(--text2); cursor: pointer; font-family: var(--font); transition: all 0.2s ease; }
+        .topic-chip:hover { border-color: var(--primary); }
+        .topic-chip.selected { background: var(--primary); color: var(--surface); border-color: var(--primary-dark); box-shadow: 0 4px 12px var(--primary-glow); }
+        .ai-results-box { display: none; margin-top: 1.5rem; padding: 1.5rem; background: var(--primary-pale); border: 1px solid var(--primary); border-radius: var(--radius); color: var(--text); font-size: 0.95rem; line-height: 1.6; }
+        .ai-results-box.show { display: block; animation: fadeInView 0.3s ease; }
+        .civic-section-title { font-size: 1.4rem; font-weight: 800; color: var(--text); margin: 1rem 0; }
+        .vault-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .vault-card { background: linear-gradient(145deg, var(--surface), var(--surface2)); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; box-shadow: var(--shadow); transition: transform 0.2s ease; }
+        .vault-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .vault-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .vault-year { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.3rem; }
+        .vault-text { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.4; }
+        .kit-list { display: flex; flex-direction: column; gap: 0.8rem; }
+        .kit-item { display: flex; align-items: center; gap: 1rem; background: var(--surface); border: 1.5px solid var(--border); padding: 1rem; border-radius: var(--radius); cursor: pointer; text-align: left; font-family: var(--font); transition: all 0.2s; }
+        .kit-item:hover:not(.disabled) { border-color: var(--primary); background: var(--primary-pale); }
+        .kit-item.checked { background: var(--success-bg); border-color: var(--success-border); }
+        .kit-checkbox { width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--muted); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+        .kit-item.checked .kit-checkbox { background: var(--success-border); border-color: var(--success-border); }
+        .kit-item.checked .kit-checkbox::after { content: '✔'; color: white; font-size: 0.9rem; }
+        .kit-label { font-size: 1rem; font-weight: 600; color: var(--text); flex: 1; }
+        .kit-item.disabled { cursor: not-allowed; background: var(--surface2); }
+        .disabled-check { border: none; background: transparent; font-size: 1.2rem; }
+        .badge-red { background: var(--error); color: white; font-size: 0.65rem; font-weight: 800; padding: 0.3rem 0.6rem; border-radius: 50px; white-space: nowrap; }
+
         /* 5. MEDIA QUERIES */
         @media (max-width: 768px) {
+            .vault-grid { grid-template-columns: 1fr; }
             .sidebar {
                 display: none;
             }
@@ -1312,6 +1344,7 @@
         <button role="tab" aria-selected="true" aria-controls="view-chat" class="tab-btn" data-tab="chat" tabindex="0">AI Assistant</button>
         <button role="tab" aria-selected="false" aria-controls="view-simulator" class="tab-btn" data-tab="simulator" tabindex="-1">Scenario Simulator</button>
         <button role="tab" aria-selected="false" aria-controls="view-quiz" class="tab-btn" data-tab="quiz" tabindex="-1">Voter Quiz</button>
+        <button role="tab" aria-selected="false" aria-controls="view-civic" class="tab-btn" data-tab="civic" tabindex="-1">Civic Action Center</button>
     </nav>
 
     <!-- TICKER BAR -->
@@ -1426,6 +1459,76 @@
                 </div>
             </section>
 
+
+            <!-- VIEW 4: CIVIC ACTION CENTER -->
+            <section id="view-civic" class="view-container" role="tabpanel" aria-labelledby="view-civic" aria-hidden="true">
+                <div class="centered-content" style="align-items: stretch; max-width: 800px; margin: 0 auto; width: 100%;">
+                    
+                    <h2 class="civic-header">Civic Action Center</h2>
+                    
+                    <!-- Feature 1: AI Manifesto -->
+                    <div class="card-container civic-card">
+                        <h3 class="civic-title">What matters to you?</h3>
+                        <p class="civic-desc">Select up to 3 topics to generate smart questions for your local candidates.</p>
+                        <div class="topic-grid" id="topic-grid">
+                            <button class="topic-chip" data-topic="Jobs & Economy" aria-pressed="false">💼 Jobs & Economy</button>
+                            <button class="topic-chip" data-topic="Healthcare" aria-pressed="false">🏥 Healthcare</button>
+                            <button class="topic-chip" data-topic="Education" aria-pressed="false">📚 Education</button>
+                            <button class="topic-chip" data-topic="Environment" aria-pressed="false">🌍 Environment</button>
+                            <button class="topic-chip" data-topic="Infrastructure" aria-pressed="false">🛣️ Infrastructure</button>
+                            <button class="topic-chip" data-topic="Women's Safety" aria-pressed="false">👩‍⚖️ Women's Safety</button>
+                        </div>
+                        <button id="generate-q-btn" class="btn-primary" style="margin-top: 1.5rem;" aria-label="Generate Questions for Candidates">Generate Questions</button>
+                        <div id="ai-questions-box" class="ai-results-box" aria-live="polite"></div>
+                    </div>
+
+                    <!-- Feature 2: Democracy Vault -->
+                    <div class="civic-section-title">Milestones of Indian Democracy</div>
+                    <div class="vault-grid">
+                        <div class="vault-card">
+                            <div class="vault-icon">🇮🇳</div>
+                            <div class="vault-year">1951</div>
+                            <div class="vault-text">First General Elections<br><span style="font-size: 0.75rem; color: var(--muted);">The largest democratic exercise begins.</span></div>
+                        </div>
+                        <div class="vault-card">
+                            <div class="vault-icon">🗳️</div>
+                            <div class="vault-year">1982</div>
+                            <div class="vault-text">Intro of EVMs<br><span style="font-size: 0.75rem; color: var(--muted);">First used in Kerala, revolutionizing polling.</span></div>
+                        </div>
+                        <div class="vault-card">
+                            <div class="vault-icon">📜</div>
+                            <div class="vault-year">2013</div>
+                            <div class="vault-text">NOTA Option<br><span style="font-size: 0.75rem; color: var(--muted);">Right to reject all candidates established.</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3: Booth Survival Kit -->
+                    <div class="card-container civic-card" style="margin-top: 2rem;">
+                        <h3 class="civic-title">Polling Day Checklist</h3>
+                        <p class="civic-desc">Tap items to check them off before heading to the booth.</p>
+                        <div class="kit-list">
+                            <button class="kit-item" aria-pressed="false">
+                                <span class="kit-checkbox"></span>
+                                <span class="kit-label">Valid Photo ID Card (EPIC, Aadhaar, etc.)</span>
+                            </button>
+                            <button class="kit-item" aria-pressed="false">
+                                <span class="kit-checkbox"></span>
+                                <span class="kit-label">Voter Information Slip</span>
+                            </button>
+                            <button class="kit-item" aria-pressed="false">
+                                <span class="kit-checkbox"></span>
+                                <span class="kit-label">Water Bottle (Transparent)</span>
+                            </button>
+                            <div class="kit-item disabled" aria-disabled="true">
+                                <span class="kit-checkbox disabled-check">❌</span>
+                                <span class="kit-label" style="text-decoration: line-through; opacity: 0.6;">Mobile Phone</span>
+                                <span class="badge-red">NOT ALLOWED INSIDE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </main>
 
@@ -1477,7 +1580,8 @@ const AppState = {
         quizQuestions: [],
         quizIdx: 0,
         quizScore: 0,
-        speechRec: null
+        speechRec: null,
+        selectedTopics: []
     };
 
 const el = id => document.getElementById(id);
@@ -1590,7 +1694,16 @@ function registerEvents() {
         on('click', '#start-quiz-btn', startQuiz);
         on('click', '#retry-quiz-btn', startQuiz);
         on('click', '#next-quiz-btn', nextQuiz);
+        
         on('click', '.quiz-opt-btn', (e, target) => answerQuiz(parseInt(target.dataset.idx)));
+        
+        // Civic Action Center Events
+        on('click', '.topic-chip', (e, target) => toggleTopic(target));
+        on('click', '#generate-q-btn', generateManifestoQuestions);
+        on('click', '.kit-item:not(.disabled)', (e, target) => {
+            target.classList.toggle('checked');
+            target.setAttribute('aria-pressed', target.classList.contains('checked'));
+        });
         
         document.addEventListener('keydown', e => {
             if (e.key === 'Enter' && !e.shiftKey && document.activeElement === el('chat-input')) { e.preventDefault(); handleSend(); }
@@ -1602,7 +1715,7 @@ function registerEvents() {
 
 function switchTab(tabId) {
         AppState.tab = tabId;
-        ['chat', 'simulator', 'quiz'].forEach(id => {
+        ['chat', 'simulator', 'quiz', 'civic'].forEach(id => {
             const btn = q(`.tab-btn[data-tab="${id}"]`);
             const view = el('view-' + id);
             
