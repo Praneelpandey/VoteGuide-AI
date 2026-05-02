@@ -2004,20 +2004,44 @@ async function handleSend() {
 function appendMessage(text, role, isError = false) {
         const msgs = el('messages'); 
         const wrap = document.createElement('div');
-        
         wrap.className = `msg-wrap ${role} ${isError ? 'error' : ''}`;
         
-        const sender = role === 'bot' ? 'VOTEGUIDE AI' : (AppState.lang === 'hi' ? 'आप' : 'YOU');
-        let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                            .replace(/\n/g, '<br>');
+        const sender = document.createElement('div');
+        sender.className = 'msg-sender';
+        sender.textContent = role === 'bot' ? 'VOTEGUIDE AI' : (AppState.lang === 'hi' ? 'आप' : 'YOU');
+        wrap.appendChild(sender);
+
+        const bubble = document.createElement('div');
+        bubble.className = 'msg-bubble';
         
-        let voiceHtml = '';
+        const parts = text.split(/(\*\*[\s\S]*?\*\*|\*[\s\S]*?\*|\n)/g);
+        parts.forEach(part => {
+            if (!part) return;
+            if (part === '\n') {
+                bubble.appendChild(document.createElement('br'));
+            } else if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+                const strong = document.createElement('strong');
+                strong.textContent = part.slice(2, -2);
+                bubble.appendChild(strong);
+            } else if (part.startsWith('*') && part.endsWith('*') && part.length >= 2) {
+                const em = document.createElement('em');
+                em.textContent = part.slice(1, -1);
+                bubble.appendChild(em);
+            } else {
+                bubble.appendChild(document.createTextNode(part));
+            }
+        });
+        wrap.appendChild(bubble);
+
         if (role === 'bot' && !isError) {
-            voiceHtml = `<button class="listen-btn msg-voice-btn" data-text="${text.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, ' ')}" aria-label="Listen to message">🔊 Listen</button>`;
+            const btn = document.createElement('button');
+            btn.className = 'listen-btn msg-voice-btn';
+            btn.dataset.text = text;
+            btn.setAttribute('aria-label', 'Listen to message');
+            btn.textContent = '🔊 Listen';
+            wrap.appendChild(btn);
         }
         
-        wrap.innerHTML = `<div class="msg-sender">${sender}</div><div class="msg-bubble">${formatted}</div>${voiceHtml}`;
         msgs.insertBefore(wrap, el('typing-wrap')); 
         scrollToBottom();
     }
@@ -2037,13 +2061,27 @@ async function startScenario() {
         
         try {
             AppState.scenario = await fetchGeminiJSON(prompt);
-            let html = `<div class="scenario-text">${AppState.scenario.scenario}</div><ul class="options-list">`;
+            container.innerHTML = '';
+            
+            const textEl = document.createElement('div');
+            textEl.className = 'scenario-text';
+            textEl.textContent = AppState.scenario.scenario;
+            container.appendChild(textEl);
+            
+            const list = document.createElement('ul');
+            list.className = 'options-list';
             
             AppState.scenario.options.forEach((opt, i) => { 
-                html += `<li><button class="opt-btn scenario-opt-btn" data-idx="${i}" aria-label="Select option: ${opt}">${opt}</button></li>`; 
+                const li = document.createElement('li');
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn scenario-opt-btn';
+                btn.dataset.idx = i;
+                btn.setAttribute('aria-label', `Select option: ${opt}`);
+                btn.textContent = opt;
+                li.appendChild(btn);
+                list.appendChild(li);
             });
-            html += `</ul>`; 
-            container.innerHTML = html;
+            container.appendChild(list);
         } catch (err) { 
             container.innerHTML = `<div class="error-text">⚠️ ${err.message}</div><button id="retry-scenario-btn" class="btn-primary" aria-label="Try generating scenario again">Try Again</button>`; 
         }
@@ -2059,13 +2097,28 @@ async function evaluateScenario(optIdx) {
         
         try {
             const result = await fetchGeminiJSON(prompt);
-            container.innerHTML = `
-                <div class="eval-card ${result.isCorrect ? 'correct' : 'wrong'}">
-                    <h3>${result.isCorrect ? '✅ Correct Action!' : '❌ Incorrect Action'}</h3>
-                    <p>${result.explanation}</p>
-                    <button id="start-scenario-btn" class="btn-primary" style="margin-top:1.5rem;" aria-label="Play another scenario">Play Another Scenario</button>
-                </div>
-            `;
+            container.innerHTML = '';
+            
+            const card = document.createElement('div');
+            card.className = `eval-card ${result.isCorrect ? 'correct' : 'wrong'}`;
+            
+            const h3 = document.createElement('h3');
+            h3.textContent = result.isCorrect ? '✅ Correct Action!' : '❌ Incorrect Action';
+            card.appendChild(h3);
+            
+            const p = document.createElement('p');
+            p.textContent = result.explanation;
+            card.appendChild(p);
+            
+            const btn = document.createElement('button');
+            btn.id = 'start-scenario-btn';
+            btn.className = 'btn-primary';
+            btn.style.marginTop = '1.5rem';
+            btn.setAttribute('aria-label', 'Play another scenario');
+            btn.textContent = 'Play Another Scenario';
+            card.appendChild(btn);
+            
+            container.appendChild(card);
         } catch (err) { 
             container.innerHTML = `<div class="error-text">⚠️ ${err.message}</div>` + oldHtml; 
         }
@@ -2106,17 +2159,32 @@ function renderQuizQuestion() {
         }
         
         const qData = AppState.quizQuestions[AppState.quizIdx];
-        let html = `
-            <div class="quiz-header">Question ${AppState.quizIdx + 1} of ${AppState.quizQuestions.length}</div>
-            <div class="quiz-q">${qData.q}</div><ul class="options-list">
-        `;
+        container.innerHTML = '';
+        
+        const header = document.createElement('div');
+        header.className = 'quiz-header';
+        header.textContent = `Question ${AppState.quizIdx + 1} of ${AppState.quizQuestions.length}`;
+        container.appendChild(header);
+        
+        const qDiv = document.createElement('div');
+        qDiv.className = 'quiz-q';
+        qDiv.textContent = qData.q;
+        container.appendChild(qDiv);
+        
+        const list = document.createElement('ul');
+        list.className = 'options-list';
         
         qData.opts.forEach((opt, i) => { 
-            html += `<li><button class="opt-btn quiz-opt-btn" data-idx="${i}" aria-label="Select answer: ${opt}">${opt}</button></li>`; 
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn quiz-opt-btn';
+            btn.dataset.idx = i;
+            btn.setAttribute('aria-label', `Select answer: ${opt}`);
+            btn.textContent = opt;
+            li.appendChild(btn);
+            list.appendChild(li);
         });
-        
-        html += `</ul>`; 
-        container.innerHTML = html;
+        container.appendChild(list);
     }
 
 function answerQuiz(optIdx) {
@@ -2126,14 +2194,38 @@ function answerQuiz(optIdx) {
         
         if (isCorrect) AppState.quizScore++;
         
-        el('quiz-content').innerHTML = `
-            <div class="eval-card ${isCorrect ? 'correct' : 'wrong'}" aria-live="assertive">
-                <h3>${isCorrect ? '✅ Correct!' : '❌ Incorrect'}</h3>
-                <p><strong>Correct Answer:</strong> ${qData.answer}</p>
-                <p style="margin-top:0.5rem;">${qData.explanation}</p>
-                <button id="next-quiz-btn" class="btn-primary" style="margin-top:1.5rem;" aria-label="Go to next question">Next Question</button>
-            </div>
-        `;
+        const container = el('quiz-content');
+        container.innerHTML = '';
+        
+        const card = document.createElement('div');
+        card.className = `eval-card ${isCorrect ? 'correct' : 'wrong'}`;
+        card.setAttribute('aria-live', 'assertive');
+        
+        const h3 = document.createElement('h3');
+        h3.textContent = isCorrect ? '✅ Correct!' : '❌ Incorrect';
+        card.appendChild(h3);
+        
+        const p1 = document.createElement('p');
+        const s1 = document.createElement('strong');
+        s1.textContent = 'Correct Answer: ';
+        p1.appendChild(s1);
+        p1.appendChild(document.createTextNode(qData.answer));
+        card.appendChild(p1);
+        
+        const p2 = document.createElement('p');
+        p2.style.marginTop = '0.5rem';
+        p2.textContent = qData.explanation;
+        card.appendChild(p2);
+        
+        const btn = document.createElement('button');
+        btn.id = 'next-quiz-btn';
+        btn.className = 'btn-primary';
+        btn.style.marginTop = '1.5rem';
+        btn.setAttribute('aria-label', 'Go to next question');
+        btn.textContent = 'Next Question';
+        card.appendChild(btn);
+        
+        container.appendChild(card);
     }
 
     function nextQuiz() { 
